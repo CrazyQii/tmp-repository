@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.felix.forum.dao.UserRepository">
+
+
+	<select id="findByUsernameAndPassword" resultType="com.felix.forum.po.User">
+		select *  from t_user  where username = #{username} and password = #{password}
+	</select>
+
+
+	<select id="getu" resultType="com.felix.forum.po.User">
+		select id,nickname,username,password,email,avatar,type,create_time createTime,update_time updateTime
+ 			from t_user
+	</select>
+	
+
+	
+</mapper>

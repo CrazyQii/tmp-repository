@@ -1,0 +1,16 @@
+
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: dev
+
+
+comment.avatar: /images/avatar.jpg
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mapper/**.xml
+  typeAliasesPackage: com.felix.forum.po
