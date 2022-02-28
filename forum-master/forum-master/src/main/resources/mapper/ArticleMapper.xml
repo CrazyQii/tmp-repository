@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.felix.forum.dao.ArticleRepository">
+
+	<select id="getOne" resultType="com.felix.forum.po.Article">
+		select *  from t_article  where id = #{id}
+	</select>
+
+<select id="findAll" resultType="com.felix.forum.po.Article">
+			select id,appreciation,commentabled,content,create_time createTime,first_picture firstPicture,flag,published,recommend
+			 ,share_statement shareStatement,title,type_id typeId,user_id userId,description  from t_article
+where 1=1 
+		<if test="appreciation != null and appreciation != ''"> and `appreciation` = #{appreciation} </if>
+		<if test="commentabled != null and commentabled != ''"> and `commentabled` = #{commentabled} </if>
+		<if test="content != null and content != ''"> and `content` = #{content}, </if>
+		<if test="firstPicture != null and firstPicture != ''"> and `first_picture` = #{firstPicture} </if>
+		<if test="flag != null and flag != ''"> and `flag` = #{flag} </if>
+		<if test="published != null and published != ''"> and `published` = #{published} </if>
+		<if test="recommend != null and recommend != ''"> and `recommend` = #{recommend} </if>
+		<if test="shareStatement != null and shareStatement != ''"> and `share_statement` = #{shareStatement} </if>
+		<if test="title != null and title != ''"> and `title` like  concat('%',#{title},'%') </if>
+		<if test="typeId != null and typeId != ''"> and `type_id` = #{typeId} </if>
+		<if test="userId != null and userId != ''"> and `user_id` = #{userId} </if>
+
+
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+	 
+	<insert id="save" parameterType="com.felix.forum.po.Article" useGeneratedKeys="true" keyProperty="id">
+		insert into t_article
+		(
+			 appreciation,commentabled,content,create_time,first_picture,flag,published,recommend
+			 ,share_statement,title,type_id,user_id,description
+		)
+		values
+		(
+			#{appreciation},#{commentabled},#{content},#{createTime},#{firstPicture},#{flag},
+			#{published},#{recommend},#{shareStatement},#{title},#{typeId},#{userId},
+			#{description}
+		)
+	</insert>
+	 
+	 
+	<update id="update" parameterType="com.felix.forum.po.Article">
+		update t_article
+		
+		<set>
+		
+		<if test="appreciation != null">`appreciation` = #{appreciation}, </if>
+		<if test="commentabled != null">`commentabled` = #{commentabled}, </if>
+		<if test="content != null">`content` = #{content}, </if>
+		<if test="firstPicture != null">`first_picture` = #{firstPicture}, </if>
+		<if test="flag != null">`flag` = #{flag}, </if>
+		<if test="published != null">`published` = #{published}, </if>
+		<if test="recommend != null">`recommend` = #{recommend}, </if>
+		<if test="shareStatement != null">`share_statement` = #{shareStatement}, </if>
+		<if test="title != null">`title` = #{title}, </if>
+		<if test="typeId != null">`type_id` = #{typeId}, </if>
+		<if test="userId != null">`user_id` = #{userId}, </if>
+		</set>
+		
+		where id = #{id}
+	</update>
+	
+	
+	<update id="updateViews" parameterType="com.felix.forum.po.Article">
+		update t_article set views = views+1 where id = #{id}
+	</update>
+	
+	
+	<delete id="remove">
+		delete from t_article where id = #{id}
+	</delete>
+	
+	
+	<select id="count" resultType="int">
+		select count(*) from t_article
+		 where 1=1 
+		<if test="appreciation != null and appreciation != ''"> and `appreciation` = #{appreciation} </if>
+		<if test="commentabled != null and commentabled != ''"> and `commentabled` = #{commentabled} </if>
+		<if test="content != null and content != ''"> and `content` = #{content}, </if>
+		<if test="firstPicture != null and firstPicture != ''"> and `first_picture` = #{firstPicture} </if>
+		<if test="flag != null and flag != ''"> and `flag` = #{flag} </if>
+		<if test="published != null and published != ''"> and `published` = #{published} </if>
+		<if test="recommend != null and recommend != ''"> and `recommend` = #{recommend} </if>
+		<if test="shareStatement != null and shareStatement != ''"> and `share_statement` = #{shareStatement} </if>
+		<if test="title != null and title != ''"> and `title` like  concat('%',#{title},'%') </if>
+		<if test="typeId != null and typeId != ''"> and `type_id` = #{typeId} </if>
+		<if test="userId != null and userId != ''"> and `user_id` = #{userId} </if>
+	</select>
+	
+	
+	
+	<select id="findTop" resultType="com.felix.forum.po.Article">
+		select * from t_article where recommend = true
+	</select>
+	
+	
+	<select id="findByYear" resultType="com.felix.forum.po.Article">
+		select * from t_article  where YEAR(update_time) = #{value} and  published=true
+	</select>
+	
+	<select id="findGroupYear" resultType="com.felix.forum.po.Article">
+		select YEAR(a.update_time) from t_article a group by YEAR(a.update_time) order by YEAR(a.update_time) desc
+	</select>
+	
+	
+	<select id="findByQuery" resultType="com.felix.forum.po.Article">
+		select * from Article where title like concat('%',${title},'%') or content like concat('%',${content},'%')
+	</select>
+	
+	
+	<select id="listArticlebytag" resultType="com.felix.forum.po.Article">
+			select id,appreciation,commentabled,content,create_time createTime,first_picture firstPicture,flag,published,recommend
+			 ,share_statement shareStatement,title,type_id typeId,user_id userId,description  from t_article
+			 where id in(select articles_id from t_article_tags where tags_id = #{tagId})  and  published=true
+
+		
+	</select>
+	
+	
+	<select id="listArticlebytype" resultType="com.felix.forum.po.Article">
+			select id,appreciation,commentabled,content,create_time createTime,first_picture firstPicture,flag,published,recommend
+			 ,share_statement shareStatement,title,type_id typeId,user_id userId,description  from t_article
+			 where  type_id = #{type_id}  and  published=true
+
+		
+	</select>
+	
+</mapper>
