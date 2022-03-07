@@ -131,10 +131,8 @@ public class ArticleController {
     	page.put("limit", limit);
         
         model.addAttribute("page", page);
-        
-        
-        
         return "admin/articleManage :: articleList";
+
     }
 
     private void setTypeAndTag(Model model){

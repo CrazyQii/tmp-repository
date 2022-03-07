@@ -50,10 +50,12 @@
         <!--头部-->
         <div class="ui secondary segment form">
             <input type="hidden" name="page">
-            <div class="inline fields">
+            <form class="ui large form" method="post" action="#" th:action="@{/articleManage/search}">
+                <div class="inline fields">
                 <!--标题文本框-->
                 <div class="field">
                     <input type="text" name="title" placeholder="标题">
+                    <input type="hidden" name="userId" th:value="${session.user.id}">
                 </div>
                 <!--分类选择文本框-->
                 <div class="field">
@@ -74,22 +76,16 @@
                         <button id="clear-btn" class="ui compact button">clear</button>
                     </div>
                 </div>
-                <!--推荐选择框-->
-                <div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" id="recommend" name="recommend">
-                        <label for="recommend">推荐</label>
-                    </div>
-                </div>
                 <!--搜索按钮-->
                 <div class="field">
-                    <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+                    <button type="button" id="search-btn" class="ui mini teal basic button submit"><i class="search icon"></i>搜索</button>
                 </div>
 
                 <div class="field">
                     <a href="#" th:href="@{/admin/articleManage/input}" class="ui mini teal basic button">新增</a>
                 </div>
             </div>
+            </form>
         </div>
         <!--表单-->
         <div id="table-container">
@@ -182,7 +178,8 @@
         $(this).closest('.message').transition('fade');
     });
 
-    $('#clear-btn').on('click', function () {
+    $('#clear-btn').on('click', function (event) {
+        event.preventDefault();
         $('.ui.type.dropdown').dropdown('clear');
     });
 

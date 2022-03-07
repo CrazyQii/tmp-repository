@@ -32,6 +32,10 @@
             <!--content-->
             <div class="ui attached segment" style="height: inherit;">
 
+                <div class="field">
+                    <a href="#" th:href="@{/admin/discussManage/nav}" class="ui mini teal basic button">创建讨论</a>
+                </div>
+
                 <div class="ui items">
                     <div class="item" th:each=" topic :${data.discuss}">
                         <div class="image">

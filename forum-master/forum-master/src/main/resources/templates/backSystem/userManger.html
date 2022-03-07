@@ -8,54 +8,12 @@
 </head>
 <body>
     <!--导航-->
-    <nav th:replace="backSystem/_fragments :: menu(2)"  class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">管理员中心</h2>
-                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>文献管理</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>用户管理</a>
-                <div class="right m-item m-mobile-hide menu">
-                    <div class="ui dropdown item">
-                        <div class="item">
-                            <img class="ui avatar image" th:src="@{${session.user.avatar}}">
-                            <div class="content"><p class="header" th:text="${session.user.nickname}"></p></div>
-                        </div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-            <i class="sidebar icon"></i>
-        </a>
+    <nav th:replace="backSystem/_fragments :: menu(2)" >
     </nav>
 
     <!--中间内容-->
     <div class="m-container-small m-padded-tb-big">
         <div class="ui container">
-            <!--头部-->
-            <div class="ui secondary segment form">
-                <input type="hidden" name="page">
-                <div class="inline fields">
-                    <!--标题文本框-->
-                    <div class="field">
-                        <input type="text" name="username," placeholder="用户名">
-                    </div>
-                    <div class="field">
-                        <input type="text" name="nickname" placeholder="昵称">
-                    </div>
-                    <div class="field">
-                        <input type="email" name="email" placeholder="邮箱">
-                    </div>
-                    <!--搜索按钮-->
-                    <div class="field">
-                        <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
-                    </div>
-                </div>
-            </div>
             <!--表单-->
             <div id="table-container">
                 <table th:fragment="userList" class="ui compact teal table">

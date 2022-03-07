@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -68,6 +69,9 @@ public class DiscussController {
             return "/admin/login";
         }
         Discuss discuss = new Discuss();
+        if (params.containsKey("title")) {
+            discuss.setTitle((String) params.get("title"));
+        }
         discuss.setUserId(user.getId());
         discuss.setContent((String) params.get("content"));
         discuss.setCreateTime(new Date());
@@ -75,7 +79,7 @@ public class DiscussController {
         discussService.saveDiscuss(discuss);
         model.addAttribute("data", discuss);
 
-        return "redirect:/admin/discussManage/" + discuss.getParentId();
+        return "redirect:/discuss";
     }
 
     @GetMapping("/discussManage/delete/{parentId}/{id}")
@@ -83,5 +87,43 @@ public class DiscussController {
                                 @PathVariable(value = "id") String id) {
         discussService.deleteById(Long.parseLong(id));
         return "redirect:/admin/discussManage/" + parentId;
+    }
+
+    @GetMapping("/discussManage/nav")
+    public String deleteDiscuss() {
+        return "/admin/discussInput";
+    }
+
+    @RequestMapping("/discussManger/{userId}")
+    public String  discussManger(@RequestParam Map<String, Object> params, @PathVariable(value = "userId")String userId, Model model){
+        if(params.get("page")==null) {
+            params.put("offset", 0);
+        }else {
+            params.put("offset", (Integer.parseInt((String)params.get("page"))-1)*8);
+        }
+        int offset = Integer.parseInt(params.get("offset").toString());
+        if(params.get("limit")==null) {
+            params.put("limit", 8);
+        }
+        params.put("userId", userId);
+        params.put("parentId", -1);
+        int limit = Integer.parseInt(params.get("limit").toString());
+        Map<String,Object> page = new HashMap<String,Object>();
+        page.put("content", discussService.getDiscusses(params));
+        page.put("count", discussService.count(params));
+        page.put("number", params.get("page")==null?1:Integer.parseInt((String)params.get("page")));
+        page.put("totalPages", discussService.count(params) / limit + 1);
+        page.put("limit", limit);
+        model.addAttribute("page", page);
+        return "admin/discussManage";
+    }
+
+
+    @GetMapping("/discussManage/{id}/delete")
+    public String deleteDiscuss(@PathVariable Long id, RedirectAttributes attributes, HttpSession session) {
+        discussService.deleteById(id);
+        User user = (User) session.getAttribute("user");
+        attributes.addFlashAttribute("message", "删除成功！");
+        return "redirect:/admin/discussManger/" + user.getId();
     }
 }

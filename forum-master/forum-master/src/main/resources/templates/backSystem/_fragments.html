@@ -21,6 +21,7 @@
             <h2 class="ui teal header item">管理员管理</h2>
             <a href="#" th:href="@{/admin/articleManage/{user}(user=${session.user.role})}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>文献管理</a>
             <a href="#" th:href="@{/system/userManger}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="home icon"></i>用户管理</a>
+            <a href="#" th:href="@{/system/discussManger}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="home icon"></i>讨论管理</a>
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown item">
                     <div class="item">

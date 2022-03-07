@@ -9,7 +9,7 @@
 
 <select id="findAll" resultType="com.felix.forum.po.Article">
 			select id,appreciation,commentabled,content,create_time createTime,first_picture firstPicture,flag,published,recommend
-			 ,share_statement shareStatement,title,type_id typeId,user_id userId,description  from t_article
+			 ,share_statement shareStatement,title,type_id typeId,user_id userId,description, views, create_time  from t_article
 where 1=1 
 		<if test="appreciation != null and appreciation != ''"> and `appreciation` = #{appreciation} </if>
 		<if test="commentabled != null and commentabled != ''"> and `commentabled` = #{commentabled} </if>
