@@ -94,41 +94,39 @@ public class ArticleServiceImpl implements ArticleService{
         return article1;
     }
 
-
-
     @Override
     public List<Article> listArticle(Map<String,Object> map) {
     	
     	List<Article> list =  articleRepository.findAll(map); 
     	
     	for(Article ar : list) {
-        	
+
         	Type type =typeService.getType(Long.parseLong(ar.getTypeId()));
         	ar.setType(type);
         	System.out.print(ar.getTypeId());
-        	
-   
+
+
         	User user = userService.getUserInfo(Long.parseLong(ar.getUserId()));
         	ar.setUser(user);
 
         	List<Comment>  lco = commentService.listCommentByArticleId(ar.getId());
         	ar.setComments(lco);
-        	
+
         	List<Tag> tags = new ArrayList<>();
         	String ts="";
         	Map<String,Object> map3 = new HashMap<String,Object>();
         	map3.put("articles_id", ar.getId());
-        	List<String> tagids =  tagService.findtags(map3);     
+        	List<String> tagids =  tagService.findtags(map3);
         	for(String aa : tagids) {
         		Tag tag = tagService.getTag(Long.parseLong(aa));
         		tags.add(tag);
         		ts=ts+tag.getId()+",";
         	}
         	ar.setTagIds(ts);
-        	
+
         	ar.setTags(tags);
-        	
-        	
+
+
         }
 		
 		return list;
@@ -150,16 +148,6 @@ public class ArticleServiceImpl implements ArticleService{
 //        Pageable pageable = new PageRequest(0,size,sort);
         Pageable pageable = PageRequest.of(0, size, sort);
         return articleRepository.findTop();
-    }
-
-    @Override
-    public Map<String, List<Article>> archiveArticle() {
-        List<String> years = articleRepository.findGroupYear();
-        Map<String,List<Article>> map = new HashMap<>();
-        for (String year : years) {
-            map.put(year,articleRepository.findByYear(year));
-        }
-        return null;
     }
 
     @Override
@@ -244,4 +232,14 @@ public class ArticleServiceImpl implements ArticleService{
 		
 		return list;
 	}
+
+    @Override
+    public List<String> findYears(Long userId) {
+        return articleRepository.findGroupYear(userId);
+    }
+
+    @Override
+    public List<Article> findArticleByYear(Map<String,Object> map) {
+        return articleRepository.findByYear(map);
+    }
 }

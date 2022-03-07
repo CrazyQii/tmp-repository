@@ -51,34 +51,54 @@ public class ArticleController {
 
     @GetMapping("/articleManage")
     public String articleManage(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
-    		@RequestParam Map<String, Object> params, Model model) {
+                                @RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("types",typeService.listType());
-        
-        
         if(params.get("page")==null) {
-    		params.put("offset", 0);
-    	}else {
-    
-    		params.put("offset", (Integer.parseInt((String)params.get("page"))-1)*8);
-    	}
-    	int offset = Integer.parseInt(params.get("offset").toString());
-    	if(params.get("limit")==null) {
-    		params.put("limit", 8);
-    	}
-    	int limit = Integer.parseInt(params.get("limit").toString());
+            params.put("offset", 0);
+        }else {
+            params.put("offset", (Integer.parseInt((String)params.get("page"))-1)*8);
+        }
+        int offset = Integer.parseInt(params.get("offset").toString());
+        if(params.get("limit")==null) {
+            params.put("limit", 8);
+        }
+        int limit = Integer.parseInt(params.get("limit").toString());
         Map<String,Object> page = new HashMap<String,Object>();
-    	page.put("content", articleService.listArticle(params));
-    	page.put("count", articleService.count(params));
-    	
-    	page.put("number", params.get("page")==null?1:Integer.parseInt((String)params.get("page")));
-    	page.put("totalPages", articleService.count(params) / limit + 1);
-    	page.put("limit", limit);
-        
+        page.put("content", articleService.listArticle(params));
+        page.put("count", articleService.count(params));
+        page.put("number", params.get("page")==null?1:Integer.parseInt((String)params.get("page")));
+        page.put("totalPages", articleService.count(params) / limit + 1);
+        page.put("limit", limit);
         model.addAttribute("page", page);
-        
-        
-        
         return "admin/articleManage";
+    }
+
+    @GetMapping("/articleManage/{user}")
+    public String articleManageAdmin(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
+                                @RequestParam Map<String, Object> params, Model model,@PathVariable String user) {
+        model.addAttribute("types",typeService.listType());
+        if(params.get("page")==null) {
+            params.put("offset", 0);
+        }else {
+            params.put("offset", (Integer.parseInt((String)params.get("page"))-1)*8);
+        }
+        int offset = Integer.parseInt(params.get("offset").toString());
+        if(params.get("limit")==null) {
+            params.put("limit", 8);
+        }
+        int limit = Integer.parseInt(params.get("limit").toString());
+        Map<String,Object> page = new HashMap<String,Object>();
+        page.put("content", articleService.listArticle(params));
+        page.put("count", articleService.count(params));
+        page.put("number", params.get("page")==null?1:Integer.parseInt((String)params.get("page")));
+        page.put("totalPages", articleService.count(params) / limit + 1);
+        page.put("limit", limit);
+        model.addAttribute("page", page);
+        if(user.equals("user")) {
+            return "admin/articleManage";
+        }else{
+            return "backSystem/articleManage";
+        }
     }
 
     @PostMapping("/articleManage/search")

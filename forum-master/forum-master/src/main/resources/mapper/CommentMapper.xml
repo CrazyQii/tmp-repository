@@ -8,19 +8,24 @@
 	</select>
 
 	<select id="findByArticleIdAndParentCommentNull" resultType="com.felix.forum.po.Comment" parameterType="com.felix.forum.po.Comment">
-		select id,avatar,content,create_time createTime,email,nickname,parent_comment_id parentCommentId,admin_comment adminComment  from t_comment  where article_id = #{articleId} and parent_comment_id is null
+		select * from t_comment  where article_id = #{articleId}
 	</select>
-	 
+
 	<insert id="save" parameterType="com.felix.forum.po.Comment" useGeneratedKeys="true" keyProperty="id">
 		insert into t_comment
 		(
-			 avatar,content,create_time,email,nickname,article_id,admin_comment
+			avatar,content,create_time,email,nickname,article_id,admin_comment
 		)
 		values
-		(
-			#{avatar},#{content},#{createTime},#{email},#{nickname},#{articleId},#{adminComment}
-		)
+			(
+				#{avatar},#{content},#{createTime},#{email},#{nickname},#{articleId},#{adminComment}
+			)
 	</insert>
-	 
-	
+
+	<delete id="delete">
+		delete from t_comment where id=#{commentId}
+	</delete>
+	<select id="queryById" parameterType="int" resultType="int">
+		select article_id from t_comment where id=#{commentId}
+	</select>
 </mapper>

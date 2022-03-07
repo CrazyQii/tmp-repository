@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="backSystem/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+<nav th:replace="backSystem/_fragments :: menu(1)"  class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">管理员中心</h2>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>文献管理</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>用户管理</a>
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown item">
+                    <div class="item">
+                        <img class="ui avatar image" th:src="@{${session.user.avatar}}">
+                        <div class="content"><p class="header" th:text="${session.user.nickname}"></p></div>
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+    <!--中间内容-->
+    <div class="m-container-small m-padded-tb-big">
+        <div class="ui container">
+            <!--头部-->
+            <div class="ui secondary segment form">
+                <input type="hidden" name="page">
+                <div class="inline fields">
+                    <!--标题文本框-->
+                    <div class="field">
+                        <input type="text" name="title" placeholder="标题">
+                    </div>
+                    <!--分类选择文本框-->
+                    <div class="field">
+                        <div class="ui labeled action input">
+                            <div class="ui type selection dropdown">
+                                <input type="hidden" name="typeId">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">分类</div>
+                                <div class="menu">
+                                    <div th:each="type : ${types}" class="item" date-value="1" th:data-value="${type.id}" th:text="${type.name}">计算机</div>
+                                </div>
+                            </div>
+                            <button id="clear-btn" class="ui compact button">clear</button>
+                        </div>
+                    </div>
+                    <!--搜索按钮-->
+                    <div class="field">
+                        <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+                    </div>
+                </div>
+            </div>
+            <!--表单-->
+            <div id="table-container">
+                <table th:fragment="articleList" class="ui compact teal table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>标题</th>
+                        <th>分类</th>
+                        <th>状态</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="article,iterStat : ${page.content}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${article.title}"></td>
+                        <td th:text="${article.type.name}"></td>
+                        <td th:text="${article.recommend} ? '是':'否'"></td>
+                        <td th:text="${article.published} ? '发布':'未发布'"></td>
+                        <td th:text="${article.updateTime}"></td>
+                        <td>
+                            <a href="#" th:href="@{/system/viewArticle/{id}/{user}(id=${article.id},user=${session.user.role})}" class="ui mini red button">查看</a>
+                            <a href="#" th:href="@{/admin/articleManage/{id}/delete(id=${article.id})}" class="ui mini red button">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="7">
+                            <div class="ui right floated pagination menu" th:if="${page.totalPages}>1">
+                                <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                                <a onclick="page(this)" th:attr="data-page=${page.number}+1" class="item" th:unless="${page.last}">下一页</a>
+                            </div>
+<!--                            <a class="ui mini teal basic button">新增</a>-->
+                        </th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <!--消息提示-->
+                <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                    <i class="close icon"></i>
+                    <div class="header">提示：</div>
+                    <p th:text="${message}">恭喜，操作成功！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script type="text/javascript">
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    //消息提示关闭初始化
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade');
+    });
+
+    $('#clear-btn').on('click', function () {
+       $('.ui.type.dropdown').dropdown('clear');
+    });
+
+    function page(obj) {
+        $("[name='page']").val($(obj).data("page"));
+        loaddata();
+    };
+
+    function loaddata() {
+        $("#table-container").load(/*[[@{/admin/articleManage/search}]]*/"/admin/articleManage/search",{
+            title : $("[name='title']").val(),
+            typeId : $("[name='typeId']").val(),
+            recommend : $("[name='recommend']").prop('checked'),
+            page : $("[name='page']").val()
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -9,4 +9,9 @@ public interface CommentService {
     List<Comment> listCommentByArticleId(Long articleId);
 
     Comment saveComment(Comment comment);
+
+
+    int delete(int commentId);
+
+    int queryById(int commentId);
 }

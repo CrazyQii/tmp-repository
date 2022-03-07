@@ -13,13 +13,15 @@ import java.util.Map;
 
 @Mapper
 public interface CommentRepository{
+    List<Comment> findByArticleIdAndParentCommentNull(Map<String, Object> map);
 
-    List<Comment> findByArticleIdAndParentCommentNull(Map<String,Object> map);
-    
-    
-    Comment get(Map<String,Object> map);
-    
 
-	
-	int save(Comment content);
+    Comment get(Map<String, Object> map);
+
+
+    int save(Comment content);
+
+    int delete(int commentId);
+
+    int queryById(int commentId);
 }

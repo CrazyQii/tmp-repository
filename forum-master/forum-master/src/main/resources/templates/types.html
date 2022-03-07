@@ -10,27 +10,7 @@
 <body>
 
     <!--导航-->
-    <nav th:replace="_fragments :: menu(2)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">“知否”学术交流平台</h2>
-                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>首页</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="info icon"></i>关于我</a>
-                <div class="right m-item item m-mobile-hide">
-                    <div class="ui icon inverted transparent input">
-                        <input type="text" placeholder="Search...">
-                        <i class="search link icon"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-            <i class="sidebar icon"></i>
-        </a>
-    </nav>
+    <nav th:replace="_fragments :: menu(2)"></nav>
 
     <!--中间内容-->
     <div class="m-container-small m-padded-tb-big">
@@ -110,26 +90,7 @@
     <br>
     <br>
     <!--底部-->
-    <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
-        <div class="ui center aligned container">
-            <div class="ui inverted divided stackable grid">
-                <div class="four wide column">
-                    <img src="../static/images/Wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
-                </div>
-                <div class="four wide column">
-                    <h4 class="ui inverted header">联系我</h4>
-                    <p>E-mail: 949525977@qq.com</p>
-                    <p>QQ: 949525977</p>
-                </div>
-                <div class="eight wide column">
-                    <h4 class="ui inverted header">简介</h4>
-                    <p>这是“知否”学术交流平台，本平台致力于提供一个良好的环境给各位进行学术交流，各位可以把自己写的一些文献、一些学习心得分享到本平台上，同时也欢迎大家将学习上遇到的问题在本平台提问出来，相信大家会很乐意为您解答!</p>
-                </div>
-            </div>
-            <div class="ui inverted section divider"></div>
-            <p class="m-text-thin m-opacity-tiny m-text-spaced">Copyright © 2021-2022 FelixLam Designed by FelixLam</p>
-        </div>
-    </footer>
+    <footer th:replace="_fragments :: footer"></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>

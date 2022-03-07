@@ -4,6 +4,7 @@ import com.felix.forum.dao.UserRepository;
 import com.felix.forum.po.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,33 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserInfo(Long id) {
-		Map<String,Object> map = new HashMap<String,Object>();
-    	map.put("id", id);
-		 return userRepository.getu(map);
+		return userRepository.getu(id);
 	}
 
-  
+	@Override
+	public User getUsername(String username) {
+		return userRepository.getUsername(username);
+	}
+
+	@Override
+	public int insertUser(User user) {
+		return userRepository.insertUser(user);
+	}
+
+	@Override
+	public int count(Map<String, Object> params) {
+		return userRepository.count(params);
+	}
+
+	@Override
+	public List<User> listUser(Map<String, Object> params) {
+		return userRepository.listUser(params);
+	}
+
+	@Override
+	public int deleteUser(Long id) {
+		return userRepository.deleteUser(id);
+	}
+
+
 }

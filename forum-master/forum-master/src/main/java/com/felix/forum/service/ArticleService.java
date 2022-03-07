@@ -15,17 +15,18 @@ public interface ArticleService {
 
     Article getAndConvert(Long id);
 
+    List<String> findYears(Long userId);
 
+    List<Article> findArticleByYear(Map<String,Object> map);
 
 
     List<Article> listArticle(Map<String,Object> map);
+
     int count(Map<String, Object> params);
 
     List<Article> listArticle(String query);
 
     List<Article> listRecommendArticleTop(Integer size);
-
-    Map<String,List<Article>> archiveArticle();
 
     int countArticle();
 

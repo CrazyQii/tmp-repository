@@ -22,7 +22,7 @@ where 1=1
 		<if test="title != null and title != ''"> and `title` like  concat('%',#{title},'%') </if>
 		<if test="typeId != null and typeId != ''"> and `type_id` = #{typeId} </if>
 		<if test="userId != null and userId != ''"> and `user_id` = #{userId} </if>
-
+		<if test="createTime != null and createTime != ''"> and  YEAR(create_time)  = #{createTime} </if>
 
 		<if test="offset != null and limit != null">
 			limit ${offset}, ${limit}
@@ -90,6 +90,8 @@ where 1=1
 		<if test="title != null and title != ''"> and `title` like  concat('%',#{title},'%') </if>
 		<if test="typeId != null and typeId != ''"> and `type_id` = #{typeId} </if>
 		<if test="userId != null and userId != ''"> and `user_id` = #{userId} </if>
+		<if test="createTime != null and createTime != ''"> and  YEAR(create_time)  = #{createTime} </if>
+
 	</select>
 	
 	
@@ -100,16 +102,16 @@ where 1=1
 	
 	
 	<select id="findByYear" resultType="com.felix.forum.po.Article">
-		select * from t_article  where YEAR(update_time) = #{value} and  published=true
+		select * from t_article  where YEAR(create_time) = #{year} and  published=true and user_id = #{userId}
 	</select>
 	
-	<select id="findGroupYear" resultType="com.felix.forum.po.Article">
-		select YEAR(a.update_time) from t_article a group by YEAR(a.update_time) order by YEAR(a.update_time) desc
+	<select id="findGroupYear" resultType="String">
+		select YEAR(a.create_time) from t_article a where user_id = #{userId} group by YEAR(a.create_time) order by YEAR(a.create_time) desc
 	</select>
 	
 	
 	<select id="findByQuery" resultType="com.felix.forum.po.Article">
-		select * from Article where title like concat('%',${title},'%') or content like concat('%',${content},'%')
+		select * from t_article where title like concat('%',${title},'%') or content like concat('%',${content},'%')
 	</select>
 	
 	

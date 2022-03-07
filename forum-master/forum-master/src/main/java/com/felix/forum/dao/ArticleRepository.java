@@ -16,10 +16,10 @@ public interface ArticleRepository{
 	
 	
 	
-    List<String> findGroupYear();
+    List<String> findGroupYear(Long userId);
 
 
-    List<Article> findByYear(String year);
+    List<Article> findByYear(Map<String,Object> map);
     
     
     Article getOne(Long cid);

@@ -2,7 +2,6 @@ package com.felix.forum.po;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,13 +16,23 @@ public class User {
     private String nickname;
     private String username;
     private String password;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     private String email;
     private String avatar;
     private Integer type;
+    private  String role;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createTime;
+    private String createTime;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updateTime;
+    private String updateTime;
 
 
     private List<Article> articles = new ArrayList<>();
@@ -87,19 +96,19 @@ public class User {
         this.type = type;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -121,8 +130,10 @@ public class User {
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", type=" + type +
+                ", role='" + role + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", articles=" + articles +
                 '}';
     }
 }

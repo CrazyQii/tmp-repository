@@ -28,21 +28,9 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<Comment> listCommentByArticleId(Long articleId) {
         Sort sort = Sort.by("createTime");
-        
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("articleId", articleId);
-
-        
         List<Comment> comments = commentRepository.findByArticleIdAndParentCommentNull(map);
-        
-        
-        
-        
-        
-        
-        
-        
-        
         return eachComment(comments);
     }
 
@@ -51,18 +39,25 @@ public class CommentServiceImpl implements CommentService{
     public Comment saveComment(Comment comment) {
         Long parentCommentId = comment.getParentComment().getId();
         if (parentCommentId != -1) {
-        	
-        	 Map<String,Object> map = new HashMap<>();
-             map.put("id", parentCommentId);
-        	
+            Map<String,Object> map = new HashMap<>();
+            map.put("id", parentCommentId);
             comment.setParentComment(commentRepository.get(map));
         } else {
             comment.setParentComment(null);
         }
         comment.setCreateTime(new Date());
         commentRepository.save(comment);
-         
         return comment;
+    }
+
+    @Override
+    public int delete(int commentId) {
+        return commentRepository.delete(commentId);
+    }
+
+    @Override
+    public int queryById(int commentId) {
+        return commentRepository.queryById(commentId);
     }
 
     /**

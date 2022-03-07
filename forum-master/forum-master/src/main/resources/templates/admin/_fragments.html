@@ -23,12 +23,13 @@
             <a href="#" th:href="@{/admin/tagManage}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>标签</a>
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown item">
-                    <div class="text">
-                        <img class="ui avatar image" src="https://picsum.photos/id/1005/100/100">
-                        Felixxx-
+                    <div class="item">
+                        <img class="ui avatar image" th:src="@{${session.user.avatar}}">
+                        <div class="content"><p class="header" th:text="${session.user.nickname}"></p></div>
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
+                        <a href="#" th:href="@{/}" class="item">首页</a>
                         <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
                     </div>
                 </div>
