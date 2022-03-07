@@ -180,7 +180,7 @@ public class ArticleController {
         return "admin/articleInput";
     }
 
-    @PostMapping("/articleManage")
+    @PostMapping("/articleManager")
     public String post(Article article, RedirectAttributes attributes, HttpSession session) {
         article.setUser((User) session.getAttribute("user"));
       
@@ -206,7 +206,7 @@ public class ArticleController {
         } else {
         	attributes.addFlashAttribute("message", "操作失败！");
         }
-        return "redirect:/admin/articleManage";
+        return "redirect:/admin/articleManage/user/" +  ((User) session.getAttribute("user")).getId();
     }
 
     @GetMapping("/articleManage/{id}/delete")

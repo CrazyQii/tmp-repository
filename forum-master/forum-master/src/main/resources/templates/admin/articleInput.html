@@ -49,7 +49,7 @@
     <!--中间内容-->
     <div class="m-container m-padded-tb-big">
         <div class="ui container">
-            <form id="article-form" action="#" th:object="${article}" th:action="@{/admin/articleManage}" method="post" class="ui form">
+            <form id="article-form" action="#" th:object="${article}" th:action="@{/admin/articleManager}" method="post" class="ui form">
                 <input type="hidden" name="published">
                 <input type="hidden" name="id" th:value="*{id}">
                 <!--标题文本框-->
