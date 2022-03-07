@@ -33,6 +33,9 @@ public class User {
     private String createTime;
     @Temporal(TemporalType.TIMESTAMP)
     private String updateTime;
+    private String description;
+    private String hobby;
+    private String tech;
 
 
     private List<Article> articles = new ArrayList<>();
@@ -118,6 +121,30 @@ public class User {
 
     public void setArticles(List<Article> articles) {
         this.articles = articles;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getTech() {
+        return tech;
+    }
+
+    public void setTech(String tech) {
+        this.tech = tech;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

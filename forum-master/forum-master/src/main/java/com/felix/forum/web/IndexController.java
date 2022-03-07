@@ -1,9 +1,7 @@
 package com.felix.forum.web;
 
-import com.felix.forum.NotFoundException;
 import com.felix.forum.po.*;
 import com.felix.forum.service.*;
-import com.felix.forum.vo.ArticleQuery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

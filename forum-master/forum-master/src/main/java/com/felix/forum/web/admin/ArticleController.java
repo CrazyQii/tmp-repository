@@ -49,9 +49,8 @@ public class ArticleController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/articleManage")
-    public String articleManage(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
-                                @RequestParam Map<String, Object> params, Model model) {
+    @GetMapping("/articleManage/user/{userId}")
+    public String articleManages(@RequestParam Map<String, Object> params, @PathVariable(value = "userId") String userId, Model model) {
         model.addAttribute("types",typeService.listType());
         if(params.get("page")==null) {
             params.put("offset", 0);
@@ -62,6 +61,7 @@ public class ArticleController {
         if(params.get("limit")==null) {
             params.put("limit", 8);
         }
+        params.put("userId", Long.parseLong(userId));
         int limit = Integer.parseInt(params.get("limit").toString());
         Map<String,Object> page = new HashMap<String,Object>();
         page.put("content", articleService.listArticle(params));

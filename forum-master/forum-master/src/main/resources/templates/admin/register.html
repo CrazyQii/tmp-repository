@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册账号</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/semantic-ui/0.12.2/javascript/semantic.js">
+  <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+
+<br>
+<br>
+<br>
+ <div class="m-container-small m-padded-tb-massive" style="max-width: 30em !important;">
+   <div class="ur container">
+     <div class="ui middle aligned center aligned grid">
+       <div class="column">
+         <h2 class="ui teal image header">
+           <div class="content">
+             用户账号注册
+           </div>
+         </h2>
+
+         <form class="ui large form" method="post" action="#" th:action="@{/register/redirect}">
+         <form class="ui large form">
+           <div class="ui  segment">
+             <div class="field">
+               <div class="ui left icon input">
+                 <i class="user icon"></i>
+                 <input type="text" name="username" placeholder="请输入用户名">
+               </div>
+             </div>
+             <div class="field">
+               <div class="ui left icon input">
+                 <i class="lock icon"></i>
+                 <input type="password" name="password1" placeholder="请输入密码">
+               </div>
+             </div>
+             <div class="field">
+               <div class="ui left icon input">
+                 <i class="lock icon"></i>
+                 <input type="password" name="password2" placeholder="请再次确认密码">
+               </div>
+             </div>
+             <div class="field">
+               <div class="ui left icon input">
+                 <i class="lock icon"></i>
+                 <input type="email" name="email" placeholder="请输入邮箱">
+               </div>
+             </div>
+             <div class="field">
+               <div class="ui left icon input">
+                 <i class="lock icon"></i>
+                 <input type="text" name="nickname" placeholder="请输入昵称">
+               </div>
+             </div>
+             <button class="ui fluid large teal submit button" id="register" onclick="zhuce">注  册</button>
+           </div>
+
+
+           <div class="ui error mini message"></div>
+           <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></div>
+
+         </form>
+
+       </div>
+     </div>
+   </div>
+ </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script type="text/javascript">
+  $('.ui.form').form({
+    fields : {
+      username : {
+        identifier: 'username',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入用户名'
+        }]
+      },
+      password1 : {
+        identifier: 'password1',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入密码'
+        }]
+      },
+      password2 : {
+        identifier: 'password2',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入确认密码'
+        }]
+      },
+      email: {
+        identifier: 'email',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入邮箱'
+        }]
+      },
+      nickname : {
+        identifier: 'nickname',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入昵称'
+        }]
+      },
+    }
+  });
+  function zhuce(){
+    $.ajax({
+      url:"/register/redirect",
+      type:"POST",
+      cache: false,
+      data:{
+        "username":username,
+        "password1":password1,
+        "password2":password2,
+        "email":email,
+        "nickname":nickname
+      },
+      dataType:"json",
+      success:function(data){
+        console.log(data);
+      },
+      error:function(){
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

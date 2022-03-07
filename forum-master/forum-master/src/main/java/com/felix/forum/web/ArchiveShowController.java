@@ -50,6 +50,9 @@ public class ArchiveShowController {
         params.put("createTime", year);
         if (years.isEmpty()) {
             page.put("count", 0);
+            page.put("years", new ArrayList<>());
+            page.put("content", null);
+            page.put("totalPages", 0);
         } else {
             params.put("userId", Long.parseLong(userId));
             int limit = Integer.parseInt(params.get("limit").toString());
