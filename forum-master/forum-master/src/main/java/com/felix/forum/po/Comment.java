@@ -21,10 +21,17 @@ public class Comment {
     
     private Long articleId;
 
+    private Long parentCommentId;
 
-	
+    public Long getParentCommentId() {
+        return parentCommentId;
+    }
 
-	public Long getArticleId() {
+    public void setParentCommentId(Long parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    public Long getArticleId() {
 		return articleId;
 	}
 

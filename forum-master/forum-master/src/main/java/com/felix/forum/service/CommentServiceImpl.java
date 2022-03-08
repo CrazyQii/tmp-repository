@@ -117,4 +117,14 @@ public class CommentServiceImpl implements CommentService{
         }
     }
 
+
+    @Override
+    public List<Comment> queryByParentId(Long parentComentId) {
+        return commentRepository.queryByParentId(parentComentId);
+    }
+
+    @Override
+    public int count(Long parentCommentId) {
+        return commentRepository.count(parentCommentId);
+    }
 }

@@ -182,7 +182,8 @@ public class ArticleController {
 
     @PostMapping("/articleManager")
     public String post(Article article, RedirectAttributes attributes, HttpSession session) {
-        article.setUser((User) session.getAttribute("user"));
+        User user = (User) session.getAttribute("user");
+        article.setUser(user);
       
         article.setTags(tagService.listTag(article.getTagIds()));
         int article1 = 0 ;
@@ -193,7 +194,7 @@ public class ArticleController {
         	
         	List<Tag> tgs = tagService.listTag(article.getTagIds());
   
-        	article.setUserId("1");
+        	article.setUserId(String.valueOf(user.getId()));
         
             article1 = articleService.saveArticle(article,tgs);
         } else {
@@ -206,7 +207,7 @@ public class ArticleController {
         } else {
         	attributes.addFlashAttribute("message", "操作失败！");
         }
-        return "redirect:/admin/articleManage/user/" +  ((User) session.getAttribute("user")).getId();
+        return "redirect:/admin/articleManage/user/" +  user.getId();
     }
 
     @GetMapping("/articleManage/{id}/delete")

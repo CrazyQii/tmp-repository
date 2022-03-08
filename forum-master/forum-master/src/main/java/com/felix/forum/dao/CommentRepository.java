@@ -24,4 +24,8 @@ public interface CommentRepository{
     int delete(int commentId);
 
     int queryById(int commentId);
+
+    List<Comment> queryByParentId(Long parentCommentId);
+
+    int count(Long parentCommentId);
 }

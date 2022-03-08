@@ -27,15 +27,22 @@
                 </div>
             </div>
             <!--分类栏-->
-            <div class="ui attached segment m-padded-tb-large">
-                <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui basic left pointing label m-margin-tb-tiny" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}">
-                    <span th:text="${tag.name}">方法论</span> <div class="detail" th:text="${#arrays.length(tag.articles)}">13</div></a>
+            <div class="ui attached segment m-padded-tb-large" th:if="${session.user}">
+                <a href="#" th:href="@{/admin/tags/{id}/{userId}(id=${tag.id}, userId=${session.user.id})}" class="ui basic left pointing label m-margin-tb-tiny" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}">
+                    <span th:text="${tag.name}">方法论</span>
+                </a>
+
             </div>
 
+            <div class="ui attached segment m-padded-tb-large" th:unless="${session.user}">
+                <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui basic left pointing label m-margin-tb-tiny" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}">
+                    <span th:text="${tag.name}">方法论</span>
+                </a>
+
+            </div>
             <!--显示该分类的文章-->
             <div class="ui top attached teal segment">
-                <div class="ui padded vertical segment m-padded-tb-large" th:each="article : ${page.content}">
-                    <div class="ui middle aligned mobile reversed stackable grid">
+                    <div class="ui middle aligned mobile reversed stackable grid" th:each="article : ${page.content}">
                         <div class="eleven wide column">
                             <h3 class="ui header"><a href="#" th:href="@{/article/{id}(id=${article.id})}" target="_blank" class="m-black" th:text="${article.title}">MySql</a></h3>
                             <p class="m-text" th:text="|${article.description}......|">斯卡拉记得啦扩大后的卡拉很深的了解阿三按了巨大石块了解的卡拉莎莎姐回答了客户</p>

@@ -14,11 +14,11 @@
 	<insert id="save" parameterType="com.felix.forum.po.Comment" useGeneratedKeys="true" keyProperty="id">
 		insert into t_comment
 		(
-			avatar,content,create_time,email,nickname,article_id,admin_comment
+			avatar,content,create_time,email,nickname,article_id,admin_comment,parent_comment_id
 		)
 		values
 			(
-				#{avatar},#{content},#{createTime},#{email},#{nickname},#{articleId},#{adminComment}
+				#{avatar},#{content},#{createTime},#{email},#{nickname},#{articleId},#{adminComment},#{parentCommentId}
 			)
 	</insert>
 
@@ -28,4 +28,13 @@
 	<select id="queryById" parameterType="int" resultType="int">
 		select article_id from t_comment where id=#{commentId}
 	</select>
+
+	<select id="queryByParentId" parameterType="int" resultType="int">
+		select * from t_comment where parent_comment_id=#{parentCommentId}
+	</select>
+
+	<select id="count" parameterType="int" resultType="int">
+		select count(*) from t_comment where parent_comment_id=#{parentCommentId}
+	</select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.felix.forum.web.admin;
 
 import com.felix.forum.po.Tag;
+import com.felix.forum.service.ArticleService;
 import com.felix.forum.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -31,6 +33,9 @@ public class TagController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ArticleService articleService;
 
     @GetMapping("/tagManage")
     public String tagManage(@PageableDefault(size = 8,sort = {"id"},direction = Sort.Direction.DESC)
@@ -125,6 +130,51 @@ public class TagController {
         tagService.deleteTag(id);
         attributes.addFlashAttribute("message", "删除成功！");
         return "redirect:/admin/tagManage";
+    }
+
+    @GetMapping("/tags/{id}/{userId}")
+    public String types(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
+                        @PathVariable Long id, @PathVariable Long userId, Model model) {
+        List<Tag> tags = tagService.listTagTop(10000);
+        if (id == -1) {
+            id = tags.get(0).getId();
+
+        }
+        model.addAttribute("tags", tags);
+
+
+
+
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("tagId", id);
+        params.put("userId", userId);
+
+        if(params.get("page")==null) {
+            params.put("offset", 0);
+        }else {
+
+            params.put("offset", (Integer.parseInt((String)params.get("page"))-1)*8);
+        }
+        int offset = Integer.parseInt(params.get("offset").toString());
+        if(params.get("limit")==null) {
+            params.put("limit", 8);
+        }
+        int limit = Integer.parseInt(params.get("limit").toString());
+        Map<String,Object> page = new HashMap<String,Object>();
+        page.put("content", articleService.listArticle(params));
+        page.put("count", articleService.count(params));
+
+        page.put("number", params.get("page")==null?1:Integer.parseInt((String)params.get("page")));
+        page.put("totalPages", articleService.count(params) / limit + 1);
+        page.put("limit", limit);
+
+        model.addAttribute("page", page);
+
+
+
+        model.addAttribute("activeTagId", id);
+        return "tags";
     }
 
 }
