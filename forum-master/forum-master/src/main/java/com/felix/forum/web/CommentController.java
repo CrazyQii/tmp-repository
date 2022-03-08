@@ -30,9 +30,6 @@ public class CommentController {
     @Autowired
     private ArticleService articleService;
 
-    @Value("${comment.avatar}")
-    private String avatar;
-
     /**
      * 显示评论
      * @param articleId
@@ -44,7 +41,7 @@ public class CommentController {
         Article article=articleService.getAndConvert(articleId);
         model.addAttribute("article", article);
         model.addAttribute("comments", commentService.listCommentByArticleId(articleId));
-        return "login/article :: commentList";
+        return "article :: commentList";
     }
 
     @GetMapping("/comments/admin/{articleId}")
@@ -64,7 +61,9 @@ public class CommentController {
     public String post(Comment comment, HttpSession session,Model model) {
         //获取文章id
         Long articleId = comment.getArticle().getId();
+        Long parentCommentId = comment.getParentComment().getId();
         comment.setArticle(articleService.getArticle(articleId));
+        comment.setParentCommentId(parentCommentId);
         User user = (User) session.getAttribute("user");
         //文章作者类型转化
         int userId=Integer.valueOf(comment.getArticle().getUserId()).intValue();
@@ -74,7 +73,7 @@ public class CommentController {
             comment.setNickname(user.getNickname());
             comment.setEmail(user.getEmail());
         } else {
-            comment.setAvatar(avatar);
+            comment.setAvatar(user.getAvatar());
             comment.setAdminComment(false);
             comment.setNickname(user.getNickname());
             comment.setEmail(user.getEmail());
