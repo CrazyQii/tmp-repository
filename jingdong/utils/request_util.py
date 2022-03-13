@@ -28,12 +28,15 @@ class RequestUtil(object):
             'user-agent': random.choice(self.user_agent)
         }
 
-    def get_good_id_info(self, keyword_type, keyword_brand, page=1, s=1):
+    def get_good_id_info(self, keyword_type, keyword_brand=None):
         goods = []
         try:
             # 页码， 每一页有30条数据
-            url = f"https://search.jd.com/search?keyword={keyword_type}&wq={keyword_type}" \
-                  f"&ev=exbrand_{keyword_brand}%5E&page={page}&s={s}&click=1"
+            if keyword_brand is not None:
+                url = f"https://search.jd.com/search?keyword={keyword_type}&wq={keyword_type}" \
+                      f"&ev=exbrand_{keyword_brand}%5E&psort=3&click=0"
+            else:
+                url = f"https://search.jd.com/search?keyword={keyword_type}&wq={keyword_type}&psort=3&click=0"
 
             # 设置编码
             res = requests.get(url, headers=self.headers)
@@ -43,6 +46,9 @@ class RequestUtil(object):
             # 解析文档数据
             selector = etree.HTML(text)
             good_list = selector.xpath('//*[@id="J_goodsList"]/ul/li')
+
+            if len(good_list) > 10:
+                good_list = good_list[:10]
 
             for i in good_list:
                 title = i.xpath('.//div[@class="p-name p-name-type-2"]/a/em/text()')[0]
@@ -124,9 +130,6 @@ req_util = RequestUtil(Config.COOKIE)
 
 # if __name__ == '__main__':
 #     cookies = '__jdu=1643247599232628855176; unpl=JF8EAKJnNSttWUMEVhwHTkETSgoBW1QOHh9QamNRVllfSlIEHQYZQEB7XlVdXhRKFB9vYhRUVFNKXQ4aCysSEXtdVV9dDU0eBGdhNWRtW0tkBCsCHBcSSFhSWlUASBUAaGQMXVlcS1ICKzIcEhl7bWRbXQlKEgJuZgJVbVl7VgQaBxoQE0leU24WZkpaA2hiB1dYXk9cDRgAGBUTQlRQWl0OTCcCX2Q; shshshfpa=e0c95879-2eac-e731-3455-eaf55f8a926b-1644833296; shshshfpb=wyiQo_rMB6KHslZZp5Xc0hw; __jdv=76161171|cn.bing.com|-|referral|-|1646381753155; areaId=15; PCSYCityID=CN_330000_330100_0; __jdc=122270672; token=a9cee6b365fe7ac70bea2e0dc3ab641f,2,914900; __tk=yih3xVTKHDv4HMTXICKtwRTKNJb3IbrQyJbRxVTKqfKtKKPXyLhJOEbaIgOswJXQIBh4wRrR,2,914900; __jda=122270672.1643247599232628855176.1643247599.1646817523.1646821046.6; ip_cityCode=1213; ipLoc-djd=15-1213-3038-59931; rkv=1.0; qrsc=3; wlfstk_smdl=34agfo701uvy51o2outof3hm7rs4m44q; __jdb=122270672.20.1643247599232628855176|6.1646821046; shshshfp=7bee43b6a0785c9839fd5a4559bb817a; shshshsID=6fbbddbf12516a00c2814713396794d1_13_1646821948572; 3AB9D23F7A4B3C9B=S6QBSPSF2KAATCSW4P657PXVSZLDAWIP2EO3Q2YT5XUFVD6PCIE6ZTAXMACRHWHUAIEXO6ZPSJJBI7RZ3HD3SAU4UQ'
-
+#
 #     req = RequestUtil(cookies)
-#     res = req.get_good_id_info(keyword_type='笔记本', keyword_brand='联想')
-#     for item in res:
-#         product = req.get_good_detail(item['product_id'])
-#         print(product)
+#     req.get_good_id_info(keyword_type='电脑')

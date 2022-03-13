@@ -1,7 +1,10 @@
+import time
+
 from pymongo import MongoClient
 import datetime
 from setting import Config
 from bson import ObjectId
+import random
 
 
 class DbUtil(object):
@@ -29,10 +32,14 @@ class DbUtil(object):
         except Exception as e:
             print(f'mongodb 查询数据失败: {e}')
 
-    def batch_select(self, collection, condition, limit=30):
+    def batch_select(self, collection, condition=None, limit=10):
         try:
             post = self.db[collection]
-            return post.find(condition).limit(limit)
+            if condition is None:
+                return post.find(condition).limit(limit)
+            else:
+                return post.find().limit(limit)
+
         except Exception as e:
             print(f'mongodb 批量查询数据失败: {e}')
 
@@ -43,14 +50,14 @@ class DbUtil(object):
         except Exception as e:
             print(f'mongodb 批量查询数据失败: {e}')
 
-    def update(self, collection, data: list):
+    def update(self, collection, condition, data: list):
         try:
             post = self.db[collection]
             timestamp = datetime.datetime.utcnow()
             _ids = []
             for item in data:
                 item['update_time'] = timestamp
-                _id = post.update_one({'product_id': item['product_id']}, {'$set': item}, upsert=True).upserted_id
+                _id = post.update_one(condition, {'$set': item}, upsert=True).upserted_id
                 if _id is None:
                     continue
                 _ids.append(_id)

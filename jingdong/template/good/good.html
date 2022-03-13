@@ -1,5 +1,8 @@
 {% extends "_fragment.html" %}
 {% block body %}
+
+    销量前10的商品列表
+
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -32,22 +35,4 @@
       </tbody>
     </table>
 
-    {#  分页组件  #}
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-end">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {% for i in range(1, data.sum) %}
-          <li class="page-item"><a class="page-link" href="/good">{{ i }}</a></li>
-          {% endfor %}
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
 {% endblock %}
