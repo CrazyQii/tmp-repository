@@ -63,7 +63,6 @@ class RequestUtil(object):
                 good['product_id'] = product_id
                 print(good)
                 goods.append(good)
-                # time.sleep(random.randint(0, 2))
 
         except Exception as e:
             print(f'爬取信息列表失败 {e}')
@@ -77,13 +76,18 @@ class RequestUtil(object):
             r = requests.get(url, headers=self.headers)
             # str转HTML
             detail = etree.HTML(r.text)
-
             # 基础信息
             product['link'] = url
-            [product_name] = detail.xpath('//*[@id="detail"]/div[2]/div[1]/div[1]/ul[2]/li[1]/@title')  # 商品名称
-            product['name'] = product_name
-            [product_brand] = detail.xpath('//*[@id="detail"]/div[2]/div[1]/div[1]/ul[1]/li[1]/a/text()')  # 商品品牌
-            product['brand'] = product_brand
+            product_name = detail.xpath('//*[@id="detail"]/div[2]/div[1]/div[1]/ul[3]/li[1]/@title')  # 商品名称
+            if len(product_name) == 0:
+                product['name'] = None
+            else:
+                product['name'] = product_name[0]
+            product_brand = detail.xpath('//*[@id="parameter-brand"]/li/a/text()')  # 商品品牌
+            if len(product_brand) == 0:
+                product['brand'] = None
+            else:
+                product['brand'] = product_brand[0]
 
             # 请求价格信息json
             p = requests.get(f'https://p.3.cn/prices/mgets?skuIds=J_{product_id}', headers=self.headers)  # 请求商品价格json

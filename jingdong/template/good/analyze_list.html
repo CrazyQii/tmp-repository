@@ -1,0 +1,28 @@
+{% extends "_fragment.html" %}
+{% block body %}
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" width="10%">分析编号</th>
+          <th scope="col" width="10%">商品类别</th>
+          <th scope="col" width="30%">商品品牌</th>
+          <th scope="col" width="10%">创建时间</th>
+          <th scope="col" width="10%">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data.result %}
+            <tr>
+              <th>{{ item.primary_id }}</th>
+              <td>{{ item.keyword_type }}</td>
+              <td>{{ item.keyword_brand }}</td>
+              <td>{{ item.update_time }}</td>
+              <td><a href="/good/analyze/{{ item.primary_id }}">查看分析</a></td>
+            </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+{% endblock %}

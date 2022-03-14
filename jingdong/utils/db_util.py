@@ -28,14 +28,17 @@ class DbUtil(object):
     def select(self, collection, condition):
         try:
             post = self.db[collection]
-            return post.find_one(condition)
+            if condition is not None:
+                return post.find_one(filter=condition)
+            else:
+                return post.find_one()
         except Exception as e:
             print(f'mongodb 查询数据失败: {e}')
 
     def batch_select(self, collection, condition=None, limit=10):
         try:
             post = self.db[collection]
-            if condition is None:
+            if condition is not None:
                 return post.find(condition).limit(limit)
             else:
                 return post.find().limit(limit)
@@ -57,6 +60,8 @@ class DbUtil(object):
             _ids = []
             for item in data:
                 item['update_time'] = timestamp
+                if 'name' in item:
+                    condition['name'] = item['name']
                 _id = post.update_one(condition, {'$set': item}, upsert=True).upserted_id
                 if _id is None:
                     continue
