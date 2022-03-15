@@ -5,17 +5,20 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="10%">商品编号</th>
-          <th scope="col" width="30%">商品名称</th>
+          <th scope="col" width="10%">商品品牌</th>
+          <th scope="col" width="10%">商品名称</th>
           <th scope="col" width="10%">当前价格（元）</th>
           <th scope="col" width="10%">总评价数量</th>
-          <th scope="col" width="10%">评分等级（1-5）</th>
-          <th scope="col" width="20%">好评率（%）</th>
+          <th scope="col" width="20%">评分等级（1-5）</th>
+          <th scope="col" width="10%">好评率（%）</th>
+          <th scope="col" width="10%">操作</th>
         </tr>
       </thead>
       <tbody>
         {% for item in data.result %}
             <tr>
               <th>{{ item.product_id }}</th>
+              <td><a href="{{ item.link }}">{{ item.brand }}</a></td>
               <td><a href="{{ item.link }}">{{ item.name }}</a></td>
               <td>{{ item.price }}</td>
               <td>{{ item.comment.total_comment_num }}</td>
@@ -27,6 +30,7 @@
                   {% endfor %}
               </td>
               <td>{{ item.comment.good_rate * 100 }}</td>
+              <td><a href="/good/comment/{{ item.product_id }}">数据分析</a></td>
             </tr>
         {% endfor %}
 

@@ -49,7 +49,10 @@ class DbUtil(object):
     def count(self, collection, condition=None):
         try:
             post = self.db[collection]
-            return post.count_documents(condition)
+            if condition is not None:
+                return post.count_documents(condition)
+            else:
+                return post.count_documents()
         except Exception as e:
             print(f'mongodb 批量查询数据失败: {e}')
 
@@ -60,8 +63,10 @@ class DbUtil(object):
             _ids = []
             for item in data:
                 item['update_time'] = timestamp
-                if 'name' in item:
-                    condition['name'] = item['name']
+                if item['brand'] is None and item['name'] is None:
+                    continue
+                condition['brand'] = item['brand']
+                condition['name'] = item['name']
                 _id = post.update_one(condition, {'$set': item}, upsert=True).upserted_id
                 if _id is None:
                     continue
