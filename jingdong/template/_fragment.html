@@ -28,20 +28,17 @@
           <li class="nav-item">
             <a class="nav-link" href="/good/insert">创建分析集合</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/good">商品信息集合</a>
-          </li>
         </ul>
       </div>
     </nav>
 
     {#  主体内容  #}
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top: 2rem;">
         {% block body %}
         {% endblock %}
     </div>
 
-<!-- 选项 1：jQuery 和 Bootstrap 集成包（集成了 Popper） -->
+    <!-- 选项 1：jQuery 和 Bootstrap 集成包（集成了 Popper） -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   </body>

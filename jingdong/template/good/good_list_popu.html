@@ -13,7 +13,7 @@
           <th scope="col" width="10%">当前价格(元)</th>
           <th scope="col" width="10%">评分等级</th>
           <th scope="col" width="10%">好评率(%)</th>
-          <th scope="col" width="10%">操作</th>
+          <th scope="col" width="25%">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -48,9 +48,9 @@
               </td>
               <td>
                   <a class="btn btn-info" href="http://p.zwjhl.com/price.aspx?url=https%3A%2F%2Fitem.jd.com%2F{{ item.product_id }}.html&event=searchPrice" target="_blank">历史价格</a>
-{#                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wordModal" data-whatever="{{ item.product_id }}">#}
-{#                      评论词云图#}
-{#                    </button>#}
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wordModal" data-whatever="{{ item.product_id }}">
+                      生成分析报告
+                    </button>
               </td>
             </tr>
         {% endfor %}
@@ -58,25 +58,25 @@
       </tbody>
     </table>
 
-{#    <div class="modal fade" id="wordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#      <div class="modal-dialog" role="document">#}
-{#        <div class="modal-content">#}
-{#          <div class="modal-header">#}
-{#            <h5 class="modal-title" id="exampleModalLabel">生成词云图</h5>#}
-{#            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
-{#              <span aria-hidden="true">&times;</span>#}
-{#            </button>#}
-{#          </div>#}
-{#          <div class="modal-body">#}
-{#              生成词云图，请耐心等待#}
-{#          </div>#}
-{#          <div class="modal-footer">#}
-{#            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>#}
-{#            <a id="a-word"  class="btn btn-primary">确认</a>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
+    <div class="modal fade" id="wordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">生成分析报告</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              生成数据分析，请耐心等待
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <a id="a-word"  class="btn btn-primary">确认</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
@@ -84,14 +84,14 @@
 
     <script>
     {#  词云弹窗  #}
-    {#$('#wordModal').on('show.bs.modal', function (event) {#}
-    {#  var button = $(event.relatedTarget) // Button that triggered the modal#}
-    {#  var recipient = button.data('whatever') // Extract info from data-* attributes#}
-    {#  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).#}
-    {#  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.#}
-    {#  console.log(recipient)#}
-    {#  var modal = $(this)#}
-    {#  modal.find('#a-word').attr('href', '/good/comment/wordcloud/' + recipient)#}
-    {#})#}
+    $('#wordModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      console.log(recipient)
+      var modal = $(this)
+      modal.find('#a-word').attr('href', '/good/comment/wordcloud/' + recipient)
+    })
     </script>
 {% endblock %}

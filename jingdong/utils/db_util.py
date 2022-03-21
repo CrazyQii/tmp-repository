@@ -63,10 +63,14 @@ class DbUtil(object):
             _ids = []
             for item in data:
                 item['update_time'] = timestamp
-                if item['brand'] is None and item['name'] is None:
-                    continue
-                condition['brand'] = item['brand']
-                condition['name'] = item['name']
+                if 'brand' in item:
+                    if item['brand'] is not None:
+                        condition['brand'] = item['brand']
+                if 'name' in item:
+                    if item['name'] is not None:
+                        condition['name'] = item['name']
+                if 'user_id' in item:
+                    condition['user_id'] = item['user_id']
                 _id = post.update_one(condition, {'$set': item}, upsert=True).upserted_id
                 if _id is None:
                     continue
@@ -75,11 +79,10 @@ class DbUtil(object):
         except Exception as e:
             print(f'mongodb 更新数据失败: {e}')
 
-    def delete(self, collection, data):
+    def delete(self, collection, condition):
         try:
             post = self.db[collection]
-            post.find_one_and_delete({'product_id': data['product_id']})
-            return True
+            return post.delete_many(condition).deleted_count
         except Exception as e:
             print(f'mongodb 删除数据失败: {e}')
 

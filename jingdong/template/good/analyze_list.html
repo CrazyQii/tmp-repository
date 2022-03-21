@@ -6,9 +6,9 @@
         <tr>
           <th scope="col" width="10%">分析编号</th>
           <th scope="col" width="10%">商品类别</th>
-          <th scope="col" width="30%">商品品牌</th>
-          <th scope="col" width="10%">创建时间</th>
-          <th scope="col" width="10%">操作</th>
+          <th scope="col" width="20%">商品品牌</th>
+          <th scope="col" width="20%">创建时间</th>
+          <th scope="col" width="20%">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -18,11 +18,117 @@
               <td>{{ item.keyword_type }}</td>
               <td>{{ item.keyword_brand }}</td>
               <td>{{ item.update_time }}</td>
-              <td><a href="/good/analyze/{{ item.primary_id }}">查看分析</a></td>
+              <td>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal" data-whatever="{{ item.primary_id }}">
+                      解析全量数据
+                    </button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popuModal" data-whatever="{{ item.primary_id }}">
+                      解析销量前20
+                    </button>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-whatever="{{ item.primary_id }}">
+                      删除
+                    </button>
+              </td>
             </tr>
         {% endfor %}
 
       </tbody>
     </table>
 
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">确认解析数据</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              初次爬取数据量较大，请耐心等待，大约3分钟
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <a id="a-link"  class="btn btn-primary">查看分析</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="popuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">确认解析数据</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              初次爬取数据量较大，请耐心等待，大约1分钟
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <a id="a-popu-link"  class="btn btn-primary">查看分析</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">删除数据</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              操作不可逆，请谨慎操作
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <a id="a-delete"  class="btn btn-danger">删除</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+    {#  解析按钮弹窗  #}
+    $('#confirmModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      console.log(recipient)
+      var modal = $(this)
+      modal.find('#a-link').attr('href', '/good/analyze/' + recipient)
+    })
+
+    {# 按钮弹窗 #}
+    $('#popuModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      console.log(recipient)
+      var modal = $(this)
+      modal.find('#a-popu-link').attr('href', '/good/analyze/popu/' + recipient)
+    })
+
+    {# 删除按钮弹窗 #}
+    $('#deleteModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      console.log(recipient)
+      var modal = $(this)
+      modal.find('#a-delete').attr('href', '/good/delete/' + recipient)
+    })
+    </script>
 {% endblock %}

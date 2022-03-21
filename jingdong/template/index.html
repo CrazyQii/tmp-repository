@@ -1,4 +1,20 @@
 {% extends "_fragment.html" %}
 {% block body %}
-    <h1>Hello World!</h1>
+    <div class="jumbotron">
+      <h1 class="display-3">电商数据分析系统</h1>
+      <hr class="my-4">
+      <div class="row">
+          <div class="col-2">
+            <div class="list-group" id="list-tab" role="tablist">
+              <a class="list-group-item list-group-item-action active" id="list-analyze-list" data-toggle="list" href="#list-analyze" role="tab" aria-controls="home">分析集合</a>
+              <a class="list-group-item list-group-item-action" id="list-create-analyze" data-toggle="list" href="#create-analyze" role="tab" aria-controls="profile">创建分析集合</a>
+              <a class="list-group-item list-group-item-action" id="list-goods-list" data-toggle="list" href="#list-goods" role="tab" aria-controls="messages">销量前10商品集合</a>
+              <a class="list-group-item list-group-item-action" id="list-price-list" data-toggle="list" href="#list-price" role="tab" aria-controls="settings">价格波动图</a>
+              <a class="list-group-item list-group-item-action" id="list-data-list" data-toggle="list" href="#list-data" role="tab" aria-controls="settings">商品基础信息爬取</a>
+              <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">评论数据爬取</a>
+              <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">评论词云图</a>
+            </div>
+          </div>
+        </div>
+    </div>
 {% endblock %}

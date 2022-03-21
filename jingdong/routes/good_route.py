@@ -3,6 +3,7 @@ from flask import render_template, request
 from flask import Blueprint
 from utils.db_util import db_util
 from utils.request_util import req_util
+from utils.analyze_util import analyze_other
 import time
 
 good_bp = Blueprint('good', __name__, url_prefix='/good')
@@ -22,28 +23,62 @@ def get_goods(analyze_id):
         result = []
 
         nums = db_util.count(COLLECTION_GOOD_DETAIL, condition={'primary_id': int(analyze_id)})
-        if nums < 5:
+        if nums < 200:
             analyze = db_util.select(COLLECTION_ANALYZE_DETAIL, {'primary_id': int(analyze_id)})
             new_goods = request_goods(keyword_type=analyze['keyword_type'], keyword_brand=analyze['keyword_brand'],
                                       primary_id=int(analyze_id))
-            db_util.update(COLLECTION_GOOD_DETAIL, {}, new_goods)
-        goods = db_util.batch_select(COLLECTION_GOOD_DETAIL, condition={'primary_id': int(analyze_id)})
+            db_util.insert(COLLECTION_GOOD_DETAIL, new_goods)
+        goods = db_util.batch_select(COLLECTION_GOOD_DETAIL, condition={'primary_id': int(analyze_id)}, limit=300)
         for item in goods:
+            if 'comment' not in item:
+                item['comment'] = ''
+            if 'price' not in item:
+                item['price'] = ''
             item['_id'] = None
             result.append(item)
-        return render_template('good/good_list.html', data={'result': result})
+        return render_template('good/good_list.html', data={'result': result, 'sum': len(result)})
     except Exception as e:
         return render_template('error/500.html', data=f'获取商品列表失败:{e}')
 
 
-def request_goods(keyword_type, keyword_brand, primary_id):
+@good_bp.route('/analyze/popu/<analyze_id>', methods=['GET'])
+def get_goods_popu(analyze_id):
+    """
+    根据分析id获取对应的策略
+    :return:
+    """
+    try:
+        result = []
+
+        nums = db_util.count(COLLECTION_GOOD_DETAIL, condition={'primary_id': int(analyze_id)})
+        if nums < 20:
+            analyze = db_util.select(COLLECTION_ANALYZE_DETAIL, {'primary_id': int(analyze_id)})
+            new_goods = request_goods(keyword_type=analyze['keyword_type'], keyword_brand=analyze['keyword_brand'],
+                                      primary_id=int(analyze_id), length=1)
+            db_util.insert(COLLECTION_GOOD_DETAIL, new_goods)
+        goods = db_util.batch_select(COLLECTION_GOOD_DETAIL, condition={'primary_id': int(analyze_id)}, limit=20)
+        for item in goods:
+            if 'comment' not in item:
+                item['comment'] = ''
+            if 'price' not in item:
+                item['price'] = ''
+            item['_id'] = None
+            result.append(item)
+        return render_template('good/good_list_popu.html', data={'result': result, 'sum': len(result)})
+    except Exception as e:
+        return render_template('error/500.html', data=f'获取商品列表失败:{e}')
+
+
+def request_goods(keyword_type, keyword_brand, primary_id, length=7):
     """
     初始化商品信息
     :return:
     """
     goods = []
     # 爬取京东商品信息
-    goods.extend(req_util.get_good_id_info(keyword_type=keyword_type, keyword_brand=keyword_brand, primary_id=primary_id))
+    goods.extend(
+        req_util.get_good_id_info(keyword_type=keyword_type, keyword_brand=keyword_brand, primary_id=primary_id,
+                                  length=length))
     if len(goods) == 0:
         raise Exception('爬取基础数据失败')
     return goods
@@ -107,10 +142,39 @@ def create_analyze():
         return render_template('error/500.html')
 
 
-@good_bp.route('/comment/<primary_id>', methods=['GET'])
-def comment_detail(primary_id):
+@good_bp.route('/delete/<primary_id>', methods=['GET'])
+def delete_analyze(primary_id):
     """
-    数据可视化
-    :param primary_id:
+    初始化分析
+    @:param keyword_type 商品类别
+    @:param keyword_brand 商品品牌
     :return:
     """
+    try:
+        result = db_util.batch_select(COLLECTION_GOOD_DETAIL, {'primary_id': int(primary_id)})
+        db_util.delete(COLLECTION_ANALYZE_DETAIL, {'primary_id': int(primary_id)})
+        db_util.delete(COLLECTION_GOOD_DETAIL, {'primary_id': int(primary_id)})
+        return list_analyze()
+    except Exception as e:
+        print(f"初始化商品数据失败： {e}")
+        return render_template('error/500.html')
+
+
+@good_bp.route('/comment/wordcloud/<product_id>', methods=['GET'])
+def comment_detail(product_id):
+    """
+    数据可视化
+    :param product_id:
+    :return:
+    """
+    try:
+        product = db_util.select(COLLECTION_GOOD_DETAIL, {'product_id': product_id})
+        print(product)
+        product['_id'] = None
+        analyze = analyze_other(product_id)
+        return render_template('good/analyze.html', data={'result': analyze['html'],
+                                                          'product': product,
+                                                          'comment': analyze['summaryComment'] })
+    except Exception as e:
+        print(f'解析词云图失败:{e}')
+        return render_template('error/500.html', data=f'解析词云图失败:{e}')
