@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.ReachPointDao">
+    <select id="queryReachPointList" resultType="com.example.studentauth.entity.ReachPoint" parameterType="Long">
+        SELECT
+        excel_id,
+        reach_point_id,
+        point_id_one,
+        point_id_two,
+        reach_score_one,
+        reach_score_two,
+        finall_reach_score_one,
+        finall_reach_score_two,
+        point_desc_one,
+        point_desc_two,
+        teach_target_one,
+        teach_target_two,
+        reach_way_one,
+        reach_way_two,
+        evaluation_basis_one,
+        evaluation_basis_two,
+        work_grade,
+        class_grade,
+        exp_grade,
+        last_grade,
+        user_id,
+        point_graduation,
+        all_grade_one,
+        reach_record,
+        reach_change,
+        reach_resources,
+        all_grade_two
+        FROM
+        tb_reach_point
+        WHERE
+        user_id=#{userId}
+        ORDER BY
+        reach_point_id ASC
+    </select>
+    <select id="queryByExcelId" resultType="com.example.studentauth.entity.ReachPoint">
+        SELECT
+        excel_id,
+        reach_point_id,
+        point_id_one,
+        point_id_two,
+        reach_score_one,
+        reach_score_two,
+        finall_reach_score_one,
+        finall_reach_score_two,
+        point_desc_one,
+        point_desc_two,
+        teach_target_one,
+        teach_target_two,
+        reach_way_one,
+        reach_way_two,
+        evaluation_basis_one,
+        evaluation_basis_two,
+        work_grade,
+        class_grade,
+        exp_grade,
+        last_grade,
+        point_graduation,
+        user_id,
+        reach_record,
+        reach_change,
+        reach_resources,
+        all_grade_one,
+        all_grade_two
+        FROM
+        tb_reach_point
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryByPointId" resultType="com.example.studentauth.entity.ReachPoint">
+        SELECT
+        excel_id,
+        reach_point_id,
+        point_id_one,
+        point_id_two,
+        reach_score_one,
+        reach_score_two,
+        finall_reach_score_one,
+        finall_reach_score_two,
+        point_desc_one,
+        point_desc_two,
+        teach_target_one,
+        teach_target_two,
+        reach_way_one,
+        reach_way_two,
+        evaluation_basis_one,
+        evaluation_basis_two,
+        work_grade,
+        class_grade,
+        exp_grade,
+        last_grade,
+        point_graduation,
+        user_id,
+        reach_record,
+        reach_change,
+        reach_resources,
+        all_grade_one,
+        all_grade_two
+        FROM
+        tb_reach_point
+        WHERE
+        reach_point_id=#{reachPointId}
+    </select>
+    <insert id="batchInsertReachPoint" parameterType="java.util.List">
+        INSERT INTO
+        tb_reach_point(excel_id,
+        point_id_one,
+        point_id_two,
+        reach_score_one,
+        reach_score_two,
+        finall_reach_score_one,
+        finall_reach_score_two,
+        point_desc_one,
+        point_desc_two,
+        teach_target_one,
+        teach_target_two,
+        reach_way_one,
+        reach_way_two,
+        evaluation_basis_one,
+        evaluation_basis_two,
+        work_grade,
+        class_grade,
+        exp_grade,
+        last_grade,
+        user_id,
+        all_grade_one,
+        all_grade_two,
+        point_graduation,
+        reach_record,
+        reach_change,
+        reach_resources)
+        VALUES
+        <foreach collection="list" item="reachPoint" index="index" separator=",">
+            (
+            #{reachPoint.excelId},
+            #{reachPoint.pointIdOne},
+            #{reachPoint.pointIdTwo},
+            #{reachPoint.reachScoreOne},
+            #{reachPoint.reachScoreTwo},
+            #{reachPoint.finallReachScoreOne},
+            #{reachPoint.finallReachScoreTwo},
+            #{reachPoint.pointDescOne},
+            #{reachPoint.pointDescTwo},
+            #{reachPoint.teachTargetOne},
+            #{reachPoint.teachTargetTwo},
+            #{reachPoint.reachWayOne},
+            #{reachPoint.reachWayTwo},
+            #{reachPoint.evaluationBasisOne},
+            #{reachPoint.evaluationBasisTwo},
+            #{reachPoint.workGrade},
+            #{reachPoint.classGrade},
+            #{reachPoint.expGrade},
+            #{reachPoint.lastGrade},
+            #{reachPoint.userId},
+            #{reachPoint.allGradeOne},
+            #{reachPoint.allGradeTwo},
+            #{reachPoint.pointGraduation},
+            #{reachPoint.reachRecord},
+            #{reachPoint.reachChange},
+            #{reachPoint.reachResources}
+            )
+        </foreach>
+    </insert>
+    <delete id="deleteReachPoint">
+        DELETE FROM
+        tb_reach_point
+        WHERE
+        reach_point_id=#{reachPointId}
+        AND user_id=#{userId}
+    </delete>
+    <update id="updateReachPointForScore" parameterType="com.example.studentauth.entity.ReachPoint">
+        update tb_reach_point
+        <set>
+            <if test="finallReachScoreOne!=null">finall_reach_score_one=#{finallReachScoreOne},</if>
+            <if test="finallReachScoreTwo!=null">finall_reach_score_two=#{finallReachScoreTwo}</if>
+        </set>
+        where excel_id=#{excelId}
+    </update>
+    <update id="updateReachPoint" parameterType="com.example.studentauth.entity.ReachPoint">
+        update tb_reach_point
+        <set>
+            <if test="excelId!=null">excel_id=#{excelId},</if>
+            <if test="pointIdOne!=null">point_id_one=#{pointIdOne},</if>
+            <if test="pointIdTwo!=null">point_id_two=#{pointIdTwo},</if>
+            <if test="reachScoreOne!=null">reach_score_one=#{reachScoreOne},</if>
+            <if test="reachScoreTwo!=null">reach_score_two=#{reachScoreTwo},</if>
+            <if test="finallReachScoreOne!=null">finall_reach_score_one=#{finallReachScoreOne},</if>
+            <if test="finallReachScoreTwo!=null">finall_reach_score_two=#{finallReachScoreTwo},</if>
+            <if test="pointDescOne!=null">point_desc_one=#{pointDescOne},</if>
+            <if test="pointDescTwo!=null">point_desc_two=#{pointDescTwo},</if>
+            <if test="teachTargetOne!=null">teach_target_one=#{teachTargetOne},</if>
+            <if test="teachTargetTwo!=null">teach_target_two=#{teachTargetTwo},</if>
+            <if test="reachWayOne!=null">reach_way_one=#{reachWayOne},</if>
+            <if test="reachWayTwo!=null">reach_way_two=#{reachWayTwo},</if>
+            <if test="evaluationBasisOne!=null">evaluation_basis_one=#{evaluationBasisOne},</if>
+            <if test="evaluationBasisTwo!=null">evaluation_basis_two=#{evaluationBasisTwo},</if>
+            <if test="workGrade!=null">work_grade=#{workGrade},</if>
+            <if test="classGrade!=null">class_grade=#{classGrade},</if>
+            <if test="expGrade!=null">exp_grade=#{expGrade},</if>
+            <if test="lastGrade!=null">last_grade=#{lastGrade},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="pointGraduation!=null">point_graduation=#{pointGraduation},</if>
+            <if test="allGradeOne!=null">all_grade_one=#{allGradeOne},</if>
+            <if test="allGradeTwo!=null">all_grade_two=#{allGradeTwo},</if>
+            <if test="reachRecord!=null">reach_record=#{reachRecord},</if>
+            <if test="reachChange!=null">reach_change=#{reachChange},</if>
+            <if test="reachResources!=null">reach_resources=#{reachResources}</if>
+        </set>
+        where reach_point_id=#{reachPointId}
+    </update>
+</mapper>

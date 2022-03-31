@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.GradeSubjectDao">
+    <insert id="batchInsertGradeSubject" useGeneratedKeys="true" keyColumn="subject_id" keyProperty="subjectId">
+        INSERT INTO
+        tb_grade_subject(subject_name,subject_desc,subject_score,excel_id,user_id)
+        VALUES
+        (#{subjectName},#{subjectDesc},#{subjectScore},#{excelId},#{userId})
+    </insert>
+    <select id="queryGradeSubjectList" resultType="com.example.studentauth.entity.GradeSubject" parameterType="Long">
+        SELECT
+        subject_name,
+        subject_id,
+        subject_desc,
+        subject_score,
+        user_id,
+        excel_id
+        FROM
+        tb_grade_subject
+        WHERE
+        user_id=#{userId}
+        ORDER BY
+        subject_id ASC
+    </select>
+    <select id="queryGradeSubjectListByExcel" resultType="com.example.studentauth.entity.GradeSubject" parameterType="Long">
+        SELECT
+        subject_name,
+        subject_id,
+        subject_desc,
+        subject_score,
+        user_id,
+        excel_id
+        FROM
+        tb_grade_subject
+        WHERE
+        excel_id=#{excelId}
+        ORDER BY
+        subject_id ASC
+    </select>
+    <select id="queryBySubjectId" resultType="com.example.studentauth.entity.GradeSubject">
+        SELECT
+        subject_name,
+        subject_id,
+        subject_desc,
+        subject_score,
+        user_id,
+        excel_id
+        FROM
+        tb_grade_subject
+        WHERE
+        subject_id=#{subjectId}
+    </select>
+    <delete id="deleteGradeSubject">
+        DELETE FROM
+        tb_grade_subject
+        WHERE
+        subject_id=#{subjectId}
+        AND user_id=#{userId}
+    </delete>
+    <update id="updateGradeSubject" parameterType="com.example.studentauth.entity.GradeSubject">
+        update tb_grade_subject
+        <set>
+            <if test="subjectId!=null">subject_id=#{subjectId},</if>
+            <if test="subjectName!=null">subject_name=#{subjectName},</if>
+            <if test="subjectDesc!=null">subject_desc=#{subjectDesc},</if>
+            <if test="subjectScore!=null">subject_score=#{subjectScore},</if>
+            <if test="excelId!=null">excel_id=#{excelId}</if>
+        </set>
+        where subject_id=#{subjectId}
+    </update>
+</mapper>

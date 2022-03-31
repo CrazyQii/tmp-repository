@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SUI Mobile Demo</title>
+    <meta name="description" content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="阿里巴巴国际UED前端">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm.min.css">
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm-extend.min.css">
+    <!--  <link rel="stylesheet" href="../resources/css/shop/shoplist.css">-->
+    <script>
+        //ga
+    </script>
+
+</head>
+<body>
+<div class="page-group">
+    <div id="page-label-input" class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left back" href="/demos/form">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class="title">课程目标对应表信息</h1>
+        </header>
+        <div class="content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content" style="display:none">
+                            <div class="item-inner">
+                                <div class="item-title label">excelId</div>
+                                <div class="item-input">
+                                    <input type="text" id="excel-id" placeholder="exceelId">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content" style="display:none">
+                            <div class="item-inner">
+                                <div class="item-title label">wordId</div>
+                                <div class="item-input">
+                                    <input type="text" id="word-id" placeholder="wordId">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 评估学生能力text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">评估学生能力</div>
+                                <div class="item-input">
+                                    <textarea id="reach-record" placeholder="定期做出适当的记录，以便评估学生能力的取得程度"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 持续改进计划 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">持续改进计划</div>
+                                <div class="item-input">
+                                    <textarea id="reach-change" placeholder="评估的结果被系统地加入项目持续改进中"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 其他可用的辅助持续改进资源描述 text-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">其他可用的辅助持续改进资源</div>
+                                <div class="item-input">
+                                    <textarea id="reach-resources" placeholder="其他可用的辅助持续改进资源"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                                           id="submit">提交</a></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script type='text/javascript'
+        src='../../static/resources/js/common/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm-extend.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/common/common.js'
+        charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/shop/reachdescupfate.js'
+        charset='utf-8'></script>
+<!-- <script type='text/javascript' src='../resources/js/local/logout.js'
+    charset='utf-8'></script> -->
+</body>
+</html>

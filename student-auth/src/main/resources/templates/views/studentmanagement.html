@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学生成绩信息管理</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm.min.css">
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm-extend.min.css">
+    <link rel="stylesheet"
+          href="../../static/resources/css/excel/studentmanagement.css">
+</head>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn").click(function () {
+            if (checkData()) {
+                $.ajaxFileUpload({
+                    url: "user/ajaxUpload.do",
+                    type: "POST",
+                    dataType: "text",
+                    fileElementId: "upfile",
+                    success: function (data) {
+                        //alert(data);
+                        console.log(data);
+                        $("#upfile").val("");
+                    },
+                    error: function (erro) {
+                        console.log(erro);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+<body>
+<header class="bar bar-nav">
+    <a class="button button-link button-nav pull-left back"
+       href="javascript:history.back(-1)"> <span class="icon icon-left"></span> 返回
+    </a>
+    <h1 class="title">学生成绩信息管理</h1>
+</header>
+<div class="content">
+    <div class="content-block">
+        <div class="row row-student-grade">
+            <div class="col-15">学生学号</div>
+            <div class="col-15">学生姓名</div>
+            <div class="col-15">课堂表现</div>
+            <div class="col-15">作业考核</div>
+            <div class="col-15">实验考核</div>
+            <div class="col-15">期末考核</div>
+            <div class="col-10">操作</div>
+        </div>
+        <div class="category-wrap"></div>
+    </div>
+    <div class="content-block">
+        <div class="row">
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill button-success"
+                   id="new">新增</a>
+            </div>
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill" id="submit">提交</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-50">
+                <form action="../exceladmin/importExcel" method="post" enctype="multipart/form-data">
+                    <input type="file" name="userExcel"/>
+                    <input type="submit" value="导入" class="category-input"/>
+                </form>
+            </div>
+            <div class="col-50">
+                <a href="../exceladmin/downloadstudentsexcel" class="button button-big button-fill button-success"
+                >下载当前学生的excel表单</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type='text/javascript'
+        src='../../static/resources/js/common/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm-extend.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/shop/studentmanagement.js'
+        charset='utf-8'></script>
+<script type="text/javascript" src="../../static/resources/js/common/ajaxfileupload.js"></script>
+</body>
+</html>

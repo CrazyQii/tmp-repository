@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.AnalysisDao">
+    <insert id="batchInsertAnalysis" useGeneratedKeys="true" keyColumn="analysis_id" keyProperty="analysisId">
+        INSERT INTO
+        tb_performance_analysis(assessment_analysis,term_analysis,course_analysis,graduation_analysis,edcation_analysis,user_id,excel_id)
+        VALUES
+        (#{assessmentAnalysis},#{termAnalysis},#{courseAnalysis},#{graduationAnalysis},#{edcationAnalysis},#{userId},#{excelId})
+    </insert>
+    <select id="queryAnalysisByExcel" resultType="com.example.studentauth.entity.Analysis">
+        SELECT
+        analysis_id,
+        assessment_analysis,
+        term_analysis,
+        course_analysis,
+        graduation_analysis,
+        edcation_analysis,
+        user_id,
+        excel_id
+        FROM
+        tb_performance_analysis
+        WHERE
+        user_id=#{userId}
+    </select>
+    <select id="queryAnalysisByExcelId" resultType="com.example.studentauth.entity.Analysis">
+        SELECT
+        analysis_id,
+        assessment_analysis,
+        term_analysis,
+        course_analysis,
+        graduation_analysis,
+        edcation_analysis,
+        user_id,
+        excel_id
+        FROM
+        tb_performance_analysis
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryByAnalysisId" resultType="com.example.studentauth.entity.Analysis">
+        SELECT
+        analysis_id,
+        assessment_analysis,
+        term_analysis,
+        course_analysis,
+        graduation_analysis,
+        edcation_analysis,
+        user_id,
+        excel_id
+        FROM
+        tb_performance_analysis
+        WHERE
+        analysis_id=#{analysisId}
+    </select>
+    <delete id="deleteAnalysis">
+        DELETE FROM
+        tb_performance_analysis
+        WHERE
+        analysis_id=#{analysisId}
+    </delete>
+    <update id="updateAnalysis" parameterType="com.example.studentauth.entity.Analysis">
+        update tb_performance_analysis
+        <set>
+            <if test="analysisId!=null">analysis_id=#{analysisId},</if>
+            <if test="assessmentAnalysis!=null">assessment_analysis=#{assessmentAnalysis},</if>
+            <if test="termAnalysis!=null">term_analysis=#{termAnalysis},</if>
+            <if test="courseAnalysis!=null">course_analysis=#{courseAnalysis},</if>
+            <if test="graduationAnalysis!=null">graduation_analysis=#{graduationAnalysis},</if>
+            <if test="edcationAnalysis!=null">edcation_analysis=#{edcationAnalysis},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="excelId!=null">excel_id=#{excelId}</if>
+        </set>
+        where analysis_id=#{analysisId}
+    </update>
+</mapper>

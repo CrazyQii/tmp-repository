@@ -1,0 +1,19 @@
+.row-student-grade {
+    border: 1px solid #999;
+    padding: .5rem;
+    border-bottom: none;
+}
+
+.row-student-grade:last-child {
+    border-bottom: 1px solid #999;
+}
+
+.category-input {
+    border: none;
+    background-color: #eee;
+}
+
+.reach-student-name {
+    white-space: nowrap;
+    overflow-x: scroll;
+}

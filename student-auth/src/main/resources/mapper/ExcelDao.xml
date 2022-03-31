@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.ExcelDao">
+    <resultMap type="com.example.studentauth.entity.Excel" id="excelMap">
+        <id column="excel_id" property="excelId"/>
+        <result column="excel_name" property="excelName"/>
+        <result column="classes_name" property="classesName"/>
+        <result column="term" property="term"/>
+        <result column="major" property="major"/>
+        <result column="course" property="course"/>
+        <result column="class_grade" property="classGrade"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="area" column="area_id" javaType="com.example.studentauth.entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+        <association property="owner" column="user_id" javaType="com.example.studentauth.entity.PersonInfo">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+        </association>
+    </resultMap>
+    <select id="queryExcelList" resultMap="excelMap">
+        SELECT
+        e.excel_id,
+        e.excel_name,
+        e.classes_name,
+        e.term,
+        e.major,
+        e.course,
+        e.class_grade,
+        e.create_time,
+        e.last_edit_time,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_excel e,
+        tb_area a
+        <where>
+            <if test="ExcelCondition.area!=null and ExcelCondition.area.areaId!=null">
+                and e.area_id=#{ExcelCondition.area.areaId}
+            </if>
+            <if test="ExcelCondition.excelName!=null">
+                and e.excel_name like '%{ExcelCondition.excelName}%'
+            </if>
+            <if test="ExcelCondition.owner!=null and ExcelCondition.owner.userId!=null">
+                and e.owner_id=#{ExcelCondition.owner.userId}
+            </if>
+        </where>
+        ORDER BY
+        e.excel_id DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryExcelListByUser" resultType="com.example.studentauth.entity.Excel" parameterType="Long">
+        SELECT
+        excel_id,
+        excel_name,
+        classes_name,
+        term,
+        major,
+        course,
+        class_grade,
+        create_time,
+        last_edit_time
+        FROM
+        tb_excel
+        WHERE
+        owner_id=#{ownerId}
+        ORDER BY
+        excel_id ASC
+    </select>
+    <select id="queryExcelCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+        tb_excel e,
+        tb_area a
+        <where>
+            <if test="ExcelCondition.area!=null and ExcelCondition.area.areaId!=null">
+                and e.area_id=#{ExcelCondition.area.areaId}
+            </if>
+            <if test="ExcelCondition.excelName!=null">
+                and e.excel_name like '%{ExcelCondition.excelName}%'
+            </if>
+            <if test="ExcelCondition.owner!=null and ExcelCondition.owner.userId!=null">
+                and e.owner_id=#{ExcelCondition.owner.userId}
+            </if>
+            AND
+            e.area_id=a.area_id
+        </where>
+    </select>
+    <select id="queryByExcelId" resultMap="excelMap" parameterType="Long">
+        SELECT
+        e.excel_id,
+        e.excel_name,
+        e.classes_name,
+        e.term,
+        e.major,
+        e.course,
+        e.class_grade,
+        e.create_time,
+        e.last_edit_time,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_excel e,
+        tb_area a
+        WHERE
+        e.excel_id=#{excelId}
+    </select>
+    <insert id="insertExcel" useGeneratedKeys="true" keyColumn="excel_id" keyProperty="excelId">
+        INSERT INTO
+        tb_excel(excel_name,major,classes_name,term,course,class_grade,owner_id,area_id,create_time,last_edit_time)
+        VALUES
+        (#{excelName},#{major},#{classesName},#{term},#{course},#{classGrade},
+        #{owner.userId},#{area.areaId},#{createTime},#{lastEditTime})
+    </insert>
+    <update id="updateExcel" parameterType="com.example.studentauth.entity.Excel">
+        update tb_excel
+        <set>
+            <if test="excelName!=null">excel_name=#{excelName},</if>
+            <if test="major!=null">major=#{major},</if>
+            <if test="classesName!=null">classes_name=#{classesName},</if>
+            <if test="term!=null">term=#{term},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="course!=null">course=#{course},</if>
+            <if test="classGrade!=null">class_grade=#{classGrade},</if>
+            <if test="area!=null">area_id=#{area.areaId}</if>
+        </set>
+        where excel_id=#{excelId}
+    </update>
+
+    <delete id="deleteExcel">
+        DELETE FROM
+            tb_excel
+        WHERE
+            excel_id=#{excelId}
+    </delete>
+</mapper>

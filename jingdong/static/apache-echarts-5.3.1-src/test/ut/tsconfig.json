@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "../../*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+  ]
+}

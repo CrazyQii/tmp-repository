@@ -1,51 +1,49 @@
 {% extends "_fragment.html" %}
 {% block body %}
 
-    <div class="row" style="margin-top: 2rem;">
-        <div class="col-sm col-md col-lg">
-            <div class="card mb-3" style="max-width: 540px; margin: 5rem auto">
-              <div class="row no-gutters">
+<div class="row" style="margin-top: 2rem;">
+    <div class="col-sm col-md col-lg">
+        <div class="card mb-3" style="max-width: 540px; margin: 5rem auto">
+            <div class="row no-gutters">
                 <div class="col-md-5">
-                  <img src="{{ data.product.img }}" alt="..." style="width: 14rem;">
+                    <img src="{{ data.product.img }}" alt="..." style="width: 14rem;">
                 </div>
                 <div class="col-md-7">
-                  <div class="card-body">
-                    <h5 class="card-title">商品信息</h5>
-                    {{ data.product.intro  | safe}}
-                      <p>
-                          <a href="{{ data.product.shop_link }}" target="_blank">店铺信息：{{ data.product.shop }}</a>
-                      </p>
-                  </div>
+                    <div class="card-body">
+                        <h5 class="card-title">商品信息</h5>
+                        {{ data.product.intro | safe}}
+                        <p>
+                            <a href="{{ data.product.shop_link }}" target="_blank">店铺信息：{{ data.product.shop }}</a>
+                        </p>
+                    </div>
                 </div>
-              </div>
             </div>
-
-        </div>
-        <div class="col-sm col-md col-lg">
-          <div style="width: 500px; height: 500px; margin-right: 1rem">{{ data.result | safe }}</div>
         </div>
 
-      </div>
-    <div class="row">
-        <div class="col-sm col-md col-lg">
-          <div id="main" style="width: 500px; height: 500px; margin: auto"></div>
-        </div>
-        <div class="col-sm col-md col-lg">
-          <div id="pie" style="width: 500px; height: 500px; margin: auto"></div>
-        </div>
+    </div>
+    <div class="col-sm col-md col-lg">
+        <div style="width: 500px; height: 500px; margin-right: 1rem">{{ data.result | safe }}</div>
     </div>
 
+</div>
+<div class="row">
+    <div class="col-sm col-md col-lg">
+        <div id="main" style="width: 500px; height: 500px; margin: auto"></div>
+    </div>
+    <div class="col-sm col-md col-lg">
+        <div id="pie" style="width: 500px; height: 500px; margin: auto"></div>
+    </div>
+</div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.common.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.common.min.js"></script>
-
-    <!-- import vintage theme -->
-    <script>
+<!-- import vintage theme -->
+<script>
 
     function formatComment(comment) {
         if (comment.indexOf('+') !== -1) {
-             comment = comment.replace('+', '')
+            comment = comment.replace('+', '')
         }
         if (comment.indexOf('万') !== -1) {
             comment = comment.replace('万', '') * 1000
@@ -53,7 +51,11 @@
         return comment
     }
 
-    var data = {{ data | tojson }}
+    var data = {
+    {
+        data | tojson
+    }
+    }
     console.log(data)
     var comment = data['comment']
 
@@ -70,93 +72,96 @@
     var option;
 
     option = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-        data: ['评论总数','默认好评', '好评数', '中等评数', '差评数', '追评数']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [comment['commentCountStr'],
-              comment['defaultGoodCountStr'],
-              comment['goodCountStr'],
-              comment['poorCountStr'],
-              comment['generalCountStr'],
-              comment['afterCountStr']],
-          type: 'bar',
-          showBackground: true,
-          backgroundStyle: {
-            color: 'rgba(180, 180, 180, 0.2)'
-          }
-        }
-      ]
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: ['评论总数', '默认好评', '好评数', '中等评数', '差评数', '追评数']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                data: [comment['commentCountStr'],
+                    comment['defaultGoodCountStr'],
+                    comment['goodCountStr'],
+                    comment['poorCountStr'],
+                    comment['generalCountStr'],
+                    comment['afterCountStr']],
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
+            }
+        ]
     };
 
     option && myChart.setOption(option);
 
-    {# 饼状图 #}
+    {
+        # 饼状图
+        #
+    }
     var chartDom = document.getElementById('pie');
     var myChart = echarts.init(chartDom);
     var option;
 
     option = {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '5%',
-        left: 'center'
-      },
-      series: [
-        {
-          name: '评价星级比例',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          itemStyle: {
-            borderRadius: 10,
-            borderColor: '#fff',
-            borderWidth: 2
-          },
-          label: {
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '评价星级比例',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: comment['score1Count'], name: '一星数量'},
+                    {value: comment['score2Count'], name: '二星数量'},
+                    {value: comment['score3Count'], name: '三星数量'},
+                    {value: comment['score4Count'], name: '四星数量'},
+                    {value: comment['score5Count'], name: '五星数量'},
+                ]
             }
-          },
-          labelLine: {
-            show: false
-          },
-          data: [
-            { value: comment['score1Count'], name: '一星数量' },
-            { value: comment['score2Count'], name: '二星数量' },
-            { value: comment['score3Count'], name: '三星数量' },
-            { value: comment['score4Count'], name: '四星数量' },
-            { value: comment['score5Count'], name: '五星数量' },
-          ]
-        }
-      ]
+        ]
     };
 
     option && myChart.setOption(option);
-    </script>
+</script>
 {% endblock %}

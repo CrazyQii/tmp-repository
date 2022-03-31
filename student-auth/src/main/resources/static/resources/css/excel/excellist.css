@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.row-excel {
+    border: 1px solid #999;
+    padding: .5rem;
+    border-bottom: none;
+}
+
+.row-excel:last-child {
+    border-bottom: 1px solid #999;
+}
+
+.excel-name {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.excel-wrap a {
+
+}

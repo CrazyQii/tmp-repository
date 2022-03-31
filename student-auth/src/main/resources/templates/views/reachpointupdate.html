@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SUI Mobile Demo</title>
+    <meta name="description" content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="阿里巴巴国际UED前端">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm.min.css">
+    <link rel="stylesheet"
+          href="../../static/resources/css/common/sm-extend.min.css">
+    <!--  <link rel="stylesheet" href="../resources/css/shop/shoplist.css">-->
+    <script>
+        //ga
+    </script>
+
+</head>
+<body>
+<div class="page-group">
+    <div id="page-label-input" class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left back" href="/demos/form">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class="title">教授课程信息</h1>
+        </header>
+        <div class="content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content" style="display:none">
+                            <div class="item-inner">
+                                <div class="item-title label">excelId</div>
+                                <div class="item-input">
+                                    <input type="text" id="excel-id" placeholder="exceelId">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content" style="display:none">
+                            <div class="item-inner">
+                                <div class="item-title label">pointId</div>
+                                <div class="item-input">
+                                    <input type="text" id="point-id" placeholder="pointId">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 课堂表现成绩 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">课堂表现</div>
+                                <div class="item-input">
+                                    <input type="text" id="class-grade" placeholder="课堂表现分值(如果当前目标不包括此成绩请填0)">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 作业考核成绩 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">作业考核</div>
+                                <div class="item-input">
+                                    <input type="text" id="work-grade" placeholder="作业考核分值(如果当前目标不包括此成绩请填0)">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 实验考核成绩 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">实验考核</div>
+                                <div class="item-input">
+                                    <input type="text" id="exp-grade" placeholder="实验考核分值(如果当前目标不包括此成绩请填0)">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 期末成绩 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">期末考试</div>
+                                <div class="item-input">
+                                    <input type="text" id="last-grade" placeholder="期末考试分值(如果当前目标不包括此成绩请填0)">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 达成目标值 text -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">达成目标值</div>
+                                <div class="item-input">
+                                    <input type="text" id="reach-score" placeholder="达成目标值">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- 指标点描述 text-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">指标点描述</div>
+                                <div class="item-input">
+                                    <textarea id="point-desc" placeholder="指标点描述"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 教学目标 text-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">当前指标点教学目标</div>
+                                <div class="item-input">
+                                    <textarea id="teach-target" placeholder="当前指标点教学目标"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 达成途径 text-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">当前指标点的达成途径</div>
+                                <div class="item-input">
+                                    <textarea id="reach-way" placeholder="当前指标点的达成途径"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 评价依据 text-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">当前指标点的评价依据</div>
+                                <div class="item-input">
+                                    <textarea id="evaluation-basis" placeholder="当前指标点的评价依据"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                                           id="submit">提交</a></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script type='text/javascript'
+        src='../../static/resources/js/common/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='../../static/resources/js/common/sm-extend.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/common/common.js'
+        charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/shop/reachpointupdate.js'
+        charset='utf-8'></script>
+<!-- <script type='text/javascript' src='../resources/js/local/logout.js'
+    charset='utf-8'></script> -->
+</body>
+</html>

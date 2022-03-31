@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>信息输入</legend>
+</fieldset>
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="display:none">
+        <label class="layui-form-label">userId</label>
+        <div class="layui-input-block">
+            <input type="text" id="user-id" autocomplete="off" placeholder="userId" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="display:none">
+        <label class="layui-form-label">reachPointId</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-id" autocomplete="off" placeholder="subjectId" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择评价值表单</label>
+        <div class="layui-input-block">
+            <select name="interest-search" id="test" lay-verify="required" lay-filter="status">
+                <option>请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">毕业要求</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-graduation" autocomplete="off" placeholder="毕业要求" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1编号</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-id-one" autocomplete="off" placeholder="指标点1编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1达成值</label>
+        <div class="layui-input-block">
+            <input type="text" id="reach-score-one" autocomplete="off" placeholder="指标点1达成值" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1描述</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-desc-one" autocomplete="off" placeholder="指标点1描述" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1教学目标</label>
+        <div class="layui-input-block">
+            <textarea id="teach-target-one" autocomplete="off" placeholder="指标点1教学目标" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1达成途径</label>
+        <div class="layui-input-block">
+            <textarea id="reach-way-one" autocomplete="off" placeholder="指标点1达成途径" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点1评价依据</label>
+        <div class="layui-input-block">
+            <input type="text" id="evaluation-basis-one" autocomplete="off" placeholder="指标点1评价依据" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2编号</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-id-two" autocomplete="off" placeholder="指标点2编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2达成值</label>
+        <div class="layui-input-block">
+            <input type="text" id="reach-score-two" autocomplete="off" placeholder="指标点2达成值" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2描述</label>
+        <div class="layui-input-block">
+            <input type="text" id="point-desc-two" autocomplete="off" placeholder="指标点2描述" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2教学目标</label>
+        <div class="layui-input-block">
+            <textarea id="teach-target-two" autocomplete="off" placeholder="指标点2教学目标" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2达成途径</label>
+        <div class="layui-input-block">
+            <textarea id="reach-way-two" autocomplete="off" placeholder="指标点2达成途径" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指标点2评价依据</label>
+        <div class="layui-input-block">
+            <input type="text" id="evaluation-basis-two" autocomplete="off" placeholder="指标点2评价依据" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">定期做出适当的记录，以便评估学生能力的取得程度</label>
+        <div class="layui-input-block">
+            <textarea id="reach-record" autocomplete="off" placeholder="定期做出适当的记录，以便评估学生能力的取得程度"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">评估的结果被系统地加入项目持续改进中</label>
+        <div class="layui-input-block">
+            <textarea id="reach-change" autocomplete="off" placeholder="评估的结果被系统地加入项目持续改进中"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">其他可用的辅助持续改进资源</label>
+        <div class="layui-input-block">
+            <textarea name="desc" id="reach-resources" placeholder="其他可用的辅助持续改进资源" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a href="#" class="layui-btn" id="submit">提交</a>
+        </div>
+    </div>
+</form>
+<script type='text/javascript' src='../../static/layui/layui.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/layui/jquery.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/common/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/shop/newreachpointupdate.js' charset='utf-8'></script>
+</body>
+</html>

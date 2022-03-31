@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.StudentDao">
+    <select id="queryStudentList" resultType="com.example.studentauth.entity.Student" parameterType="Long">
+        SELECT
+        excel_id,
+        student_id,
+        student_name,
+        class_grade,
+        work_grade,
+        exp_grade,
+        last_grade,
+        all_grade,
+        user_id,
+        exe_student_id
+        FROM
+        tb_student_grade
+        WHERE
+        user_id=#{userId}
+        ORDER BY
+        exe_student_id ASC
+    </select>
+    <select id="queryStudentListByExcel" resultType="com.example.studentauth.entity.Student" parameterType="Long">
+        SELECT
+        excel_id,
+        student_id,
+        student_name,
+        class_grade,
+        work_grade,
+        exp_grade,
+        last_grade,
+        all_grade,
+        user_id,
+        exe_student_id
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        ORDER BY
+        student_id ASC
+    </select>
+    <insert id="batchInsertStudent" parameterType="java.util.List">
+        INSERT INTO
+        tb_student_grade(student_id,student_name,class_grade,work_grade,exp_grade,last_grade,all_grade
+        ,excel_id,user_id)
+        VALUES
+        <foreach collection="list" item="student" index="index" separator=",">
+            (
+            #{student.studentId},
+            #{student.studentName},
+            #{student.classGrade},
+            #{student.workGrade},
+            #{student.expGrade},
+            #{student.lastGrade},
+            #{student.allGrade},
+            #{student.excelId},
+            #{student.userId}
+            )
+        </foreach>
+    </insert>
+    <select id="queryByexestudentId" resultType="com.example.studentauth.entity.Student">
+        SELECT
+        excel_id,
+        student_id,
+        student_name,
+        class_grade,
+        work_grade,
+        exp_grade,
+        last_grade,
+        all_grade,
+        user_id,
+        exe_student_id
+        FROM
+        tb_student_grade
+        WHERE
+        exe_student_id=#{exeStudentId}
+    </select>
+    <select id="queryStudentByExcelId" resultType="com.example.studentauth.entity.Student">
+        SELECT
+        excel_id,
+        student_id,
+        student_name,
+        class_grade,
+        work_grade,
+        exp_grade,
+        last_grade,
+        all_grade,
+        user_id,
+        exe_student_id
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryCountLastbest" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (last_grade<![CDATA[>=]]>45 and last_grade<![CDATA[<=]]>50)
+    </select>
+    <select id="queryCountLast2" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (last_grade<![CDATA[>=]]>40 and last_grade<![CDATA[<]]>45)
+    </select>
+    <select id="queryCountLast3" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (last_grade<![CDATA[>=]]>35 and last_grade<![CDATA[<]]>40)
+    </select>
+    <select id="queryCountLast4" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (last_grade<![CDATA[>=]]>30 and last_grade<![CDATA[<]]>35)
+    </select>
+    <select id="queryCountLast5" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (last_grade<![CDATA[<]]>30)
+    </select>
+    <select id="queryCountallbest" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (all_grade<![CDATA[>=]]>90 and all_grade<![CDATA[<=]]>100)
+    </select>
+    <select id="queryCountall2" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (all_grade<![CDATA[>=]]>80 and all_grade<![CDATA[<]]>90)
+    </select>
+    <select id="queryCountall3" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (all_grade<![CDATA[>=]]>70 and all_grade<![CDATA[<]]>80)
+    </select>
+    <select id="queryCountall4" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (all_grade<![CDATA[>=]]>60 and all_grade<![CDATA[<]]>70)
+    </select>
+    <select id="queryCountall5" resultType="int" parameterType="long">
+        SELECT
+        count(1)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+        AND
+        (all_grade<![CDATA[<]]>60)
+    </select>
+    <select id="querymaxlast" resultType="double" parameterType="long">
+        SELECT
+        max(last_grade)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryminlast" resultType="double" parameterType="long">
+        SELECT
+        min(last_grade)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="querymaxall" resultType="double" parameterType="long">
+        SELECT
+        max(all_grade)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryminall" resultType="double" parameterType="long">
+        SELECT
+        min(all_grade)
+        FROM
+        tb_student_grade
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <delete id="deleteStudent">
+        DELETE FROM
+        tb_student_grade
+        WHERE
+        exe_student_id=#{exeStudentId}
+        AND user_id=#{userId}
+    </delete>
+    <update id="updateStudent" parameterType="com.example.studentauth.entity.Student">
+        update tb_student_grade
+        <set>
+            <if test="excelId!=null">excel_id=#{excelId},</if>
+            <if test="studentId!=null">student_id=#{studentId},</if>
+            <if test="studentName!=null">student_name=#{studentName},</if>
+            <if test="classGrade!=null">class_grade=#{classGrade},</if>
+            <if test="workGrade!=null">work_grade=#{workGrade},</if>
+            <if test="expGrade!=null">exp_grade=#{expGrade},</if>
+            <if test="lastGrade!=null">last_grade=#{lastGrade},</if>
+            <if test="allGrade!=null">all_grade=#{allGrade}</if>
+        </set>
+        where exe_student_id=#{exeStudentId}
+    </update>
+</mapper>

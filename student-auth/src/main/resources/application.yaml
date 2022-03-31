@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://121.41.169.208/o2o?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    oracleucp:
+      max-pool-size: 30
+      min-pool-size: 10
+  freemarker:
+    template-loader-path: classpath:/templates/views/
+  thymeleaf:
+    prefix: classpath:/templates/views/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.example.studentauth.entity
+  mapper-locations: classpath*:/mapper/**.xml

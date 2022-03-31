@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>系统主页</title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">课程管理</div>
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <span id="user-name"></span>
+                </a>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:;" id="log-out">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">课程项目添加</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="http://localhost:8080/exceladmin/testlist" target="myFrameName">课程信息管理</a></dd>
+                        <dd><a href="http://localhost:8080/exceladmin/newgradesubject"
+                               target="myFrameName">考核题目管理</a></dd>
+                        <dd><a href="http://localhost:8080/exceladmin/newreachpointmanagement" target="myFrameName">指标点列表</a>
+                        </dd>
+                        <dd><a href="http://localhost:8080/exceladmin/newanalysis" target="myFrameName">成绩分析列表</a>
+                        </dd>
+                        <dd><a href="http://localhost:8080/exceladmin/newstudentmanagement" target="myFrameName">学生列表</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <iframe id="myFrameId" name="myFrameName" src="" frameborder="0"
+                    style="width: 100%; height: 690px; border-radius: 2px;">
+                <a href="http://localhost:8080/exceladmin/testlist" target="myFrameName"></a>
+        </div>
+    </div>
+    </iframe>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
+</div>
+
+<script type='text/javascript' src='../../static/layui/layui.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/layui/jquery.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/shop/index.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/common/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='../../static/resources/js/local/logout.js' charset='utf-8'></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
+</body>
+</html>

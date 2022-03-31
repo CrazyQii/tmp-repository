@@ -1,97 +1,106 @@
 {% extends "_fragment.html" %}
 {% block body %}
 
-    <button type="button" class="btn btn-primary">
-      该商品销量前 <span class="badge badge-light">{{ data.sum }}</span> 数据
-    </button>
+<button type="button" class="btn btn-primary">
+    该商品销量前 <span class="badge badge-light">{{ data.sum }}</span> 数据
+</button>
 
-    <table class="table" style="margin-top: 2rem;">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col" width="5%">商品编号</th>
-          <th scope="col" width="40%">商品信息</th>
-          <th scope="col" width="10%">当前价格(元)</th>
-          <th scope="col" width="10%">评分等级</th>
-          <th scope="col" width="10%">好评率(%)</th>
-          <th scope="col" width="25%">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in data.result %}
-            <tr>
-              <th><a href="{{ item.link }}" target="_blank">{{ item.product_id }}</a></th>
-              <td>{{ item.intro | safe }}</td>
-              <td>
-                  {% if item.price != '' %}
-                    {{ item.price }}
-                  {% else %}
-                      暂无数据
-                  {% endif %}
-              </td>
-              <td>
-                {% if item.comment != '' %}
-                    {% for i in range(0, item.comment.average_score) %}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                      </svg>
-                      {% endfor %}
-                {% else %}
-                    暂无数据
-                {% endif %}
-              </td>
-              <td>
-                {% if item.comment != '' %}
-                    {{ item.comment.good_rate * 100 }}
-                {% else %}
-                    暂无数据
-                {% endif %}
-              </td>
-              <td>
-                  <a class="btn btn-info" href="http://p.zwjhl.com/price.aspx?url=https%3A%2F%2Fitem.jd.com%2F{{ item.product_id }}.html&event=searchPrice" target="_blank">历史价格</a>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wordModal" data-whatever="{{ item.product_id }}">
-                      生成分析报告
-                    </button>
-              </td>
-            </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
-
-    <div class="modal fade" id="wordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">生成分析报告</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+<table class="table" style="margin-top: 2rem;">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col" width="5%">商品编号</th>
+        <th scope="col" width="40%">商品信息</th>
+        <th scope="col" width="10%">当前价格(元)</th>
+        <th scope="col" width="10%">评分等级</th>
+        <th scope="col" width="10%">好评率(%)</th>
+        <th scope="col" width="25%">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in data.result %}
+    <tr>
+        <th><a href="{{ item.link }}" target="_blank">{{ item.product_id }}</a></th>
+        <td>{{ item.intro | safe }}</td>
+        <td>
+            {% if item.price != '' %}
+            {{ item.price }}
+            {% else %}
+            暂无数据
+            {% endif %}
+        </td>
+        <td>
+            {% if item.comment != '' %}
+            {% for i in range(0, item.comment.average_score) %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill"
+                 viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+            {% endfor %}
+            {% else %}
+            暂无数据
+            {% endif %}
+        </td>
+        <td>
+            {% if item.comment != '' %}
+            {{ item.comment.good_rate * 100 }}
+            {% else %}
+            暂无数据
+            {% endif %}
+        </td>
+        <td>
+            <a class="btn btn-info"
+               href="http://p.zwjhl.com/price.aspx?url=https%3A%2F%2Fitem.jd.com%2F{{ item.product_id }}.html&event=searchPrice"
+               target="_blank">历史价格</a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wordModal"
+                    data-whatever="{{ item.product_id }}">
+                生成分析报告
             </button>
-          </div>
-          <div class="modal-body">
-              生成数据分析，请耐心等待
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-            <a id="a-word"  class="btn btn-primary">确认</a>
-          </div>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<div class="modal fade" id="wordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">生成分析报告</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                生成数据分析，请耐心等待
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <a id="a-word" class="btn btn-primary">确认</a>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 
-    <script>
-    {#  词云弹窗  #}
+<script>
+    {
+        #  词云弹窗
+        #
+    }
     $('#wordModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('whatever') // Extract info from data-* attributes
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      console.log(recipient)
-      var modal = $(this)
-      modal.find('#a-word').attr('href', '/good/comment/wordcloud/' + recipient)
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        console.log(recipient)
+        var modal = $(this)
+        modal.find('#a-word').attr('href', '/good/comment/wordcloud/' + recipient)
     })
-    </script>
+</script>
 {% endblock %}

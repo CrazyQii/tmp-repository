@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentauth.dao.ReachDescDao">
+    <insert id="batchInsertReachDesc" useGeneratedKeys="true" keyColumn="word_id" keyProperty="wordId">
+        INSERT INTO
+        tb_reachdesc(reach_record,reach_change,reach_resources,excel_id)
+        VALUES
+        (#{reachRecord},#{reachChange},#{reachResources},#{excelId})
+    </insert>
+    <select id="queryReachDescByExcel" resultType="com.example.studentauth.entity.ReachDesc">
+        SELECT
+        word_id,
+        reach_record,
+        reach_change,
+        reach_resources,
+        excel_id
+        FROM
+        tb_reachdesc
+        WHERE
+        excel_id=#{excelId}
+    </select>
+    <select id="queryByReachDescId" resultType="com.example.studentauth.entity.ReachDesc">
+        SELECT
+        word_id,
+        reach_record,
+        reach_change,
+        reach_resources,
+        excel_id
+        FROM
+        tb_reachdesc
+        WHERE
+        word_id=#{wordId}
+    </select>
+    <delete id="deleteReachDesc">
+        DELETE FROM
+        tb_reachdesc
+        WHERE
+        word_id=#{wordId}
+        AND excel_id=#{excelId}
+    </delete>
+    <update id="updateReachDesc" parameterType="com.example.studentauth.entity.ReachDesc">
+        update tb_reachdesc
+        <set>
+            <if test="wordId!=null">word_id=#{wordId},</if>
+            <if test="reachRecord!=null">reach_record=#{reachRecord},</if>
+            <if test="reachChange!=null">reach_change=#{reachChange},</if>
+            <if test="reachResources!=null">reach_resources=#{reachResources},</if>
+            <if test="excelId!=null">excel_id=#{excelId}</if>
+        </set>
+        where word_id=#{wordId}
+    </update>
+</mapper>
