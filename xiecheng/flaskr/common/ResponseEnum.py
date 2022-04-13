@@ -19,5 +19,6 @@ class ResponseEnum(Enum):
     SIGN_IN_SECRET_ERROR = {'code': 1017, 'msg': '密码不能小于5位'}
     SYSTEM_ERROR = {'code': 1018, 'msg': '系统未知错误'}
     INIT_DATABASE_ERROR = {'code': 1019, 'msg': '初始化数据库失败'}
+    LOCATION_ERROR = {'code': 1020, 'msg': 'ip定位失败'}
 
 

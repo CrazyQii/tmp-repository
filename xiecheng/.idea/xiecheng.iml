@@ -14,7 +14,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/flaskr" />
+        <option value="$MODULE_DIR$/flaskr/template" />
       </list>
     </option>
   </component>

@@ -7,7 +7,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from models.AccountModel import AccountModel  # 账户模型
 from models import db
 from common.ResponseEnum import ResponseEnum
-
+import requests
 
 def resp(code=ResponseEnum.SUCCESS.value['code'], msg=ResponseEnum.SUCCESS.value['msg'], data=None) -> object:
     """
@@ -34,6 +34,8 @@ def request_parse(req_data):
         data = req_data.json
     elif req_data.method == 'GET':
         data = req_data.args
+    elif req_data.method == 'DELETE':
+        data = req_data.args
     return data
 
 
@@ -50,6 +52,26 @@ def pagination(pagelimit, pagenum) -> tuple[int, int]:
         return pagelimit, offset
     except Exception as e:
         print(f'分页函数错误: {e}')
+
+
+def get_host_ip_location():
+    """
+    查询本机ip地址
+    :return: ip
+    """
+    try:
+        baidu_ak = 'tWjfxe1KFoMk8nq11UQDciY4dGihggxQ'
+        url = f'http://api.map.baidu.com/location/ip?ak={baidu_ak}&coor=bd09ll'
+        res = requests.get(url)
+        if res.status_code == 200:
+            return {
+                'province': res.json()['content']['address_detail']['province'],
+                'city': res.json()['content']['address_detail']['city']
+            }
+        else:
+            return None
+    except Exception as e:
+        print('获取地理位置失败', e)
 
 
 #######################

@@ -52,7 +52,6 @@ def sign_in():
     :return:
     """
     try:
-
         param = request_parse(request)
         register = valid_register(param.get('phone'), param.get('password'))
         if register[0]:  # 数据是否合法
@@ -121,6 +120,24 @@ def query_users():
         print('分页查询用户列表异常 ' + str(e))
         return resp(ResponseEnum.QUERY_DATABASE_FAIL.value['code'], ResponseEnum.QUERY_DATABASE_FAIL.value['msg'])
 
+@auth_bp.route('/user', methods=['DELETE'])
+def delete_user():
+    """ 删除用户 """
+    try:
+        param = request_parse(request)
+        if param.get('id') is not None:
+            ass = AccountModel.query.filter(
+                AccountModel.id == request.args.get('id')).first()
+            # db.session.delete(ass)
+            # db.session.commit()
+            if ass is not None:
+                return resp()
+            return resp(ResponseEnum.QUERY_DATABASE_FAIL.value['code'], '未找到对应的用户')
+        else:
+            return resp(ResponseEnum.PARAM_INVALID.value['code'], ResponseEnum.PARAM_INVALID.value['msg'])
+    except Exception as e:
+        print('删除用户列表异常 ' + str(e))
+        return resp(ResponseEnum.DELETE_DATABASE_FAIL.value['code'], ResponseEnum.DELETE_DATABASE_FAIL.value['msg'])
 
 ############################################
 # 辅助函数
@@ -129,8 +146,7 @@ def query_users():
 
 def repeat_register(phone: str):
     """ 判断用户是否已经存在，存在False，不存在True """
-    account = db.session.query(AccountModel).filter(
-        AccountModel.phone == phone).first()
+    account = db.session.query(AccountModel).filter(AccountModel.phone == phone).first()
     if account is None:
         return True, ''
     else:
