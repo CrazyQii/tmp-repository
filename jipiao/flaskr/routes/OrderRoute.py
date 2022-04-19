@@ -88,7 +88,7 @@ def remove_order():
         if param.get('order_id') is not None and param.get('account_id') is not None:
             OrderModel.query.filter(OrderModel.id == param.get('order_id')).update({'pay_ready': 3})
             db.session.commit()
-            data = OrderService.query_orders(param.get('account_id'), limit, offset)
+            data = OrderService.query_orders(param.get('account_id'))
             return resp(data=data)
         else:
             return resp(ResponseEnum.PARAM_INVALID.value['code'], ResponseEnum.PARAM_INVALID.value['msg'])

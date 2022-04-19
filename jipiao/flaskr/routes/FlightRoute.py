@@ -128,7 +128,18 @@ def update_flight():
             else:
                 return resp(ResponseEnum.FLIGHT_NOT_EXIST.value['code'], ResponseEnum.FLIGHT_NOT_EXIST.value['msg'])
         else:
-            return resp(ResponseEnum.PARAM_INVALID.value['code'], ResponseEnum.PARAM_INVALID.value['msg'])
+            flight = FlightModel()
+            flight.flight_type = param.get('flight_type')
+            flight.flight_company = param.get('flight_company')
+            flight.price = param.get('price')
+            flight.flight_number = param.get('flight_number')
+            flight.from_pos = param.get('from_pos')
+            flight.to_pos = param.get('to_pos')
+            flight.start_time = param.get('start_time')
+            flight.end_time = param.get('end_time')
+            db.session.add(flight)
+            db.session.commit()
+            return resp(data=flight.to_json())
     except Exception as e:
         print('修改航班列表异常 ' + str(e))
         return resp(ResponseEnum.UPDATE_DATABASE_FAIL.value['code'], ResponseEnum.UPDATE_DATABASE_FAIL.value['msg'])

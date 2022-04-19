@@ -77,16 +77,8 @@ const routes = [
   {
     path: '/message/',
     name: 'message',
-    component: () => import('../views/auth/Message.vue'),
-    // meta: {
-      // keepAlive: true // 需要缓存
-    // }
+    component: () => import('../views/auth/Message.vue')
   },
-  {
-    path: '/pay-success/',
-    name: 'pay-success',
-    component: () => import('../views/flight/PaySuccess.vue')
-  }
 ]
 
 const router = new VueRouter({

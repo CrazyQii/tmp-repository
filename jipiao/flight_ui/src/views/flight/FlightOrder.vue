@@ -12,7 +12,7 @@
                 <a-tag v-if="text === 0" :color="'volcano'">未支付</a-tag>
                 <a-tag v-if="text === 1" :color="'green'">已支付</a-tag>
                 <a-tag v-if="text === 2">已过期</a-tag>
-                <a-tag v-if="text === 3">已取消</a-tag>
+                <a-tag v-if="text === 3">已退票</a-tag>
             </template>
             <template slot="rest_time" slot-scope="text, record">
                 <a-statistic-countdown
@@ -23,6 +23,7 @@
             <template slot="operation" slot-scope="text, record">
                 <a-button v-if="record.pay_ready === 0" type="primary" @click="pay(record)">支付</a-button>
                 <a-button v-if="record.pay_ready === 0" type="danger" style="margin-left: 2rem" @click="cancelOrder(record)">取消订单</a-button>
+                <a-button v-if="record.pay_ready === 1" type="primary" @click="cancelOrder(record)">退票</a-button>
             </template>
         </a-table>
     </div>
@@ -56,18 +57,21 @@ const columns = [
     dataIndex: "flight.start_time",
     key: 'start_time',
     scopedSlots: { customRender: "start_time" },
+    sorter: (a, b) => Date.parse(a.flight.start_time) - Date.parse(b.flight.start_time),
   },
   {
     title: "到达时间",
     dataIndex: "flight.end_time",
     key: 'end_time',
     scopedSlots: { customRender: "end_time" },
+    sorter: (a, b) => Date.parse(a.flight.end_time) - Date.parse(b.flight.end_time),
   },
   {
     title: "机票价格(￥)",
     dataIndex: "money",
     key: 'money',
     scopedSlots: { customRender: "money" },
+    sorter: (a, b) => a.money - b.money,
   },
   {
     title: "剩余支付时间",
@@ -110,23 +114,21 @@ export default {
     }, 
     mounted() {
         this.get_user_info()
-        
     },
     methods: {
 
         // 获取用户信息
         get_user_info() {
-            if (this.user_info == null) {
+            if (this.user_info.id == null) {
                 this.$user_api.user_info().then((res) => {
                     if (res.code == 200) {
                         this.user_info = res.data
+                        this.get_order_list(this.user_info.id)
                     }
-                    this.get_order_list()
                 })
             } else {
-                this.get_order_list()
+                this.get_order_list(this.user_info.id)
             }
-            
         },
 
         /**
@@ -141,12 +143,10 @@ export default {
         /**
          * 获取订单列表
          */
-        get_order_list() {
+        get_order_list(user_id) {
             this.loading = true
             let param = {
-                // pagelimit: this.pagination.pageSize,
-                // pagenum: this.pagination.current,
-                account_id: this.user_info.id
+                account_id: user_id
             }
             console.log(param)
             this.$flight_api.get_order_list(param).then((res) => {

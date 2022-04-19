@@ -11,7 +11,6 @@
                 <span>航班日期：</span>
                 <a-date-picker
                     format="YYYY-MM-DD"
-                    :disabled-date="disabledDate"
                     @change="OnChange"
                     placeholder="选择始发日期"
                 />
@@ -185,11 +184,6 @@ export default {
     methods: {
         // 日期选择框配置
         moment,
-
-        disabledDate(current) {
-            // Can not select days before today and today
-            return current && current <= moment().endOf('day');
-        },
 
         /**
          * 表格分页操作

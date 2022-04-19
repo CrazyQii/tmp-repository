@@ -81,9 +81,9 @@ export default {
       style: { 
         padding: '24px', 
         minHeight: '640px', 
-        background: "url(" + require('/src/assets/bg.png') + ") no-repeat fixed center",
+        // background: "url(" + require('/src/assets/bg.png') + ") no-repeat fixed center",
         backgroundSize: 'cover',
-        // background: '#fff'
+        background: '#fff'
       }
     }
   },

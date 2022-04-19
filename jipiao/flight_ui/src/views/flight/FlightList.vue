@@ -5,7 +5,6 @@
                 <span>航班日期：</span>
                 <a-date-picker
                     format="YYYY-MM-DD"
-                    :disabled-date="disabledDate"
                     @change="OnChange"
                     placeholder="选择始发日期"
                 />
@@ -17,6 +16,7 @@
                     expand-trigger="hover"
                     placeholder="选择始发城市"
                     @change="onChangeStartCity"
+                    :default-value="defaultValue"
                 />
             </a-col>
             
@@ -82,38 +82,53 @@ import 'moment/locale/zh-cn';
 // 表格表头
 const columns = [
     {
+    title: "编号",
+    dataIndex: "id",
+    key: 'id',
+    width: "5%",
+  },
+  {
     title: "航空公司",
     dataIndex: "flight_company",
     key: 'flight_company',
-    width: "12%",
+    width: "10%",
     scopedSlots: { customRender: "flight_company" },
   },
   {
     title: "机型",
     dataIndex: "flight_type",
     key: 'flight_type',
-    width: "8%",
+    width: "10%",
   },
   
   {
     title: "始发时间",
     dataIndex: "start_time",
     key: 'start_time',
-    width: "15%",
     scopedSlots: { customRender: "start_time" },
+    sorter: (a, b) => Date.parse(a.start_time) - Date.parse(b.start_time),
   },
   {
     title: "到达时间",
     dataIndex: "end_time",
     key: 'end_time',
-    width: "15%",
     scopedSlots: { customRender: "end_time" },
+    sorter: (a, b) => Date.parse(a.end_time) - Date.parse(b.end_time),
+  },
+  {
+    title: "舱位数量",
+    dataIndex: "flight_number",
+    key: 'flight_number',
+    width: '10%',
+    scopedSlots: { customRender: "flight_number" },
+    sorter: (a, b) => a.flight_number - b.flight_number,
   },
   {
     title: "机票价格(￥)",
     dataIndex: "price",
     key: 'price',
     scopedSlots: { customRender: "price" },
+    sorter: (a, b) => a.price - b.price,
   },
   {
     title: "操作",
@@ -143,7 +158,8 @@ export default {
             date: '',
             start_city: '',
             arrive_city: '',
-            location: '走丢了'
+            location: '走丢了',
+            defaultValue: []
         }
     },
     mounted() {
@@ -158,6 +174,10 @@ export default {
                 console.log(res)
                 if (res.code == 200) {
                     this.location = res.data['province'] + res.data['city']
+                    // 根据定位设置始发城市
+                    this.defaultValue.push(res.data['province'])
+                    this.defaultValue.push(res.data['city'])
+                    this.start_city = res.data['city']
                 } else {
                     this.$message.error('ip地理位置定位失败! ' + res.msg);
                 }
@@ -173,10 +193,11 @@ export default {
             this.pagination = pager;
         },
 
-        disabledDate(current) {
-            // Can not select days before today and today
-            return current && current <= moment().endOf('day');
-        },
+        // disabledDate(current) {
+        //     // Can not select days before today and today
+        //     console.log(current < moment('lastDay'))
+        //     return current && current < moment().endOf('day');
+        // },
 
         /**
          * 获取航班班次
@@ -253,6 +274,7 @@ export default {
                 if (res.code == 200) {
                     if (res.data.flights.length == 0) { // 没有检索到数据
                         this.$message.error('很抱歉，当日没有两地机票！');
+                        this.data = []
                     } else {
                         for (let index = 0; index < res.data['flights'].length; index++) {
                             res['data']['flights'][index]['start_time'] = getTaskTime(res['data']['flights'][index]['start_time'])

@@ -2,13 +2,10 @@
     <div>
         <a-steps>
             <a-step status="finish" title="信息确认">
-            <a-icon slot="icon" type="form" />
+                <a-icon slot="icon" type="form" />
             </a-step>
             <a-step status="finish" title="待支付">
-            <a-icon slot="icon" type="transaction" />
-            </a-step>
-            <a-step status="wait" title="支付成功">
-                <a-icon slot="icon" type="smile-o" />
+                <a-icon slot="icon" type="transaction" />
             </a-step>
         </a-steps>
 
@@ -41,7 +38,7 @@ export default {
                 if (res.code == 200) {
                     if (res.data.pay_ready == 1) {
                         this.$router.push({
-                            path: `/pay-success`,
+                            path: `/order`,
                         })
                     }
                 } else {
