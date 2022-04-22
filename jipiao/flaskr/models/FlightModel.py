@@ -7,7 +7,7 @@ from . import db
 class FlightModel(db.Model):
     """ 航班模型 """
     __tablename__ = 'tb_flight'
-    id = db.Column(db.Integer, doc="ID", primary_key=True)
+    id = db.Column(db.String(255), doc="航班号", primary_key=True)
     flight_type = db.Column(db.String(255), doc="机型", nullable=True)
     flight_company = db.Column(db.String(255), doc="航空公司", nullable=True)
     flight_number = db.Column(db.Integer, doc="舱位数量", nullable=True)

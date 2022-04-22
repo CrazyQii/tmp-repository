@@ -45,7 +45,7 @@
             <router-link to="/profile">个人信息</router-link>
           </a-menu-item>
           <a-menu-item>
-            <a @click="logout">登出</a>
+            <a @click="logout">退出登录</a>
           </a-menu-item>
         </a-sub-menu>
       </a-menu>
@@ -81,9 +81,9 @@ export default {
       style: { 
         padding: '24px', 
         minHeight: '640px', 
-        // background: "url(" + require('/src/assets/bg.png') + ") no-repeat fixed center",
+        background: "url(" + require('/src/assets/bg.png') + ") no-repeat fixed center",
         backgroundSize: 'cover',
-        background: '#fff'
+        // background: '#fff'
       }
     }
   },
@@ -128,14 +128,14 @@ export default {
         }
       });
     },
-    // 登出操作
+    // 退出登录操作
     logout() {
       this.$user_api.logout().then((res) => {
         if (res.code == 200) {
           localStorage.clear();
           location.reload();
         } else {
-          this.$message.error("登出失败！！");
+          this.$message.error("退出登录失败！！");
         }
       });
     },

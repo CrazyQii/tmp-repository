@@ -1,5 +1,6 @@
 # coding:utf-8
 # 航班路由
+import datetime
 
 from flask import Blueprint, request, session
 from common.Utils import request_parse, pagination, resp, get_host_ip_location
@@ -113,6 +114,7 @@ def update_flight():
         print(param)
         if param.get('flight_id') is not None:
             flight = db.session.query(FlightModel).filter(FlightModel.id == param.get('flight_id')).first()
+            print(flight)
             if flight is not None:
                 flight.flight_type = param.get('flight_type')
                 flight.flight_company = param.get('flight_company')
@@ -126,20 +128,45 @@ def update_flight():
                 db.session.commit()
                 return resp(data=flight.to_json())
             else:
-                return resp(ResponseEnum.FLIGHT_NOT_EXIST.value['code'], ResponseEnum.FLIGHT_NOT_EXIST.value['msg'])
+                flight = FlightModel()
+                flight.id = param.get('flight_id')
+                flight.flight_type = param.get('flight_type')
+                flight.flight_company = param.get('flight_company')
+                flight.price = param.get('price')
+                flight.flight_number = param.get('flight_number')
+                flight.from_pos = param.get('from_pos')
+                flight.to_pos = param.get('to_pos')
+                flight.start_time = param.get('start_time')
+                flight.end_time = param.get('end_time')
+                db.session.add(flight)
+                db.session.commit()
+                return resp(data=flight.to_json())
         else:
-            flight = FlightModel()
-            flight.flight_type = param.get('flight_type')
-            flight.flight_company = param.get('flight_company')
-            flight.price = param.get('price')
-            flight.flight_number = param.get('flight_number')
-            flight.from_pos = param.get('from_pos')
-            flight.to_pos = param.get('to_pos')
-            flight.start_time = param.get('start_time')
-            flight.end_time = param.get('end_time')
-            db.session.add(flight)
-            db.session.commit()
-            return resp(data=flight.to_json())
+            return resp(ResponseEnum.PARAM_INVALID.value['code'], ResponseEnum.PARAM_INVALID.value['msg'])
     except Exception as e:
         print('修改航班列表异常 ' + str(e))
+        return resp(ResponseEnum.UPDATE_DATABASE_FAIL.value['code'], ResponseEnum.UPDATE_DATABASE_FAIL.value['msg'])
+
+
+@flight_bp.route('/modify/date', methods=['GET'])
+def modify_flight():
+    """ 批量修改航班日期 """
+    try:
+        param = request_parse(request)
+        flights = db.session.query(FlightModel).all()
+        if param.get('direction') == 'up':
+            for item in flights:
+                item.start_time = item.start_time - datetime.timedelta(days=1)
+                item.end_time = item.end_time - datetime.timedelta(days=1)
+                db.session.query(FlightModel).filter(FlightModel.id == item.id).update(item.to_json())
+                db.session.commit()
+        else:
+            for item in flights:
+                item.start_time = item.start_time + datetime.timedelta(days=1)
+                item.end_time = item.end_time + datetime.timedelta(days=1)
+                db.session.query(FlightModel).filter(FlightModel.id == item.id).update(item.to_json())
+                db.session.commit()
+        return resp()
+    except Exception as e:
+        print('批量修改航班日期失败 ' + str(e))
         return resp(ResponseEnum.UPDATE_DATABASE_FAIL.value['code'], ResponseEnum.UPDATE_DATABASE_FAIL.value['msg'])

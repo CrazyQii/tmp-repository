@@ -34,13 +34,21 @@
                     @change="onChangeArriveCity"
                 />
             </a-col>
-            <a-col :span="5">
+            <a-col :span="6">
                 <a-button type="primary" @click="submit">
                     查询
                 </a-button>
-                <a-button type="primary" @click="addFlight" style="margin-left: 2rem;">
+                <a-button type="primary" @click="addFlight" style="margin-left: 1rem;">
                     添加航班
                 </a-button>
+                <a-button-group size="small" style="margin-left:1rem;">
+                    <a-button type="link" @click="upDate">
+                        <a-icon type="left" />
+                    </a-button>
+                    <a-button type="link" @click="downDate">
+                        <a-icon type="right" />
+                    </a-button>
+                </a-button-group>
             </a-col>
         </a-row>
         <a-table
@@ -60,18 +68,26 @@
             </template>
             <!-- 删除 -->
             <template slot="operation" slot-scope="text, row">
-                <a-button
-                type="danger"
-                @click="del(row.id)"
-                style="margin-right: 2rem"
-                >删除</a-button
-                >
-                <a-button
+                <a-row>
+                    <a-col :span="14">
+                        <a-button
+                            type="danger"
+                            size="small"
+                            @click="del(row.id)"
+                            >删除</a-button
+                            >
+                    </a-col>
+                    <a-col :span="8">
+                        <a-button
                     type="primary"
+                    size="small"
                     @click="edit(row)"
-                    style="margin-right: 2rem"
                     >编辑</a-button
                 >
+                    </a-col>
+                </a-row>
+                
+                
             </template>
         </a-table>
 
@@ -95,6 +111,11 @@ import 'moment/locale/zh-cn';
 import FlightInfo from "@/components/FlightInfo.vue";
 
 const columns = [
+    {
+    title: "航班号",
+    dataIndex: "id",
+    key: 'id',
+  },
   {
     title: "始发城市",
     dataIndex: "from_pos",
@@ -109,7 +130,7 @@ const columns = [
     title: "航空公司",
     dataIndex: "flight_company",
     key: 'flight_company',
-    width: "15%",
+    width: "10%",
     scopedSlots: { customRender: "flight_company" },
   },
   {
@@ -122,14 +143,12 @@ const columns = [
     title: "始发时间",
     dataIndex: "start_time",
     key: 'start_time',
-    width: "15%",
     scopedSlots: { customRender: "start_time" },
   },
   {
     title: "到达时间",
     dataIndex: "end_time",
     key: 'end_time',
-    width: "15%",
     scopedSlots: { customRender: "end_time" },
   },
   {
@@ -137,11 +156,21 @@ const columns = [
     dataIndex: "price",
     key: 'price',
     scopedSlots: { customRender: "price" },
+    sorter: (a, b) => a.price - b.price,
+  },
+  {
+    title: "舱位数量",
+    dataIndex: "flight_number",
+    key: 'flight_number',
+    width: '10%',
+    scopedSlots: { customRender: "flight_number" },
+    sorter: (a, b) => a.flight_number - b.flight_number,
   },
   {
     title: "操作",
     dataIndex: "operation",
     key: 'operation',
+    width: '10%',
     scopedSlots: { customRender: "operation" },
   },
 ];
@@ -198,6 +227,7 @@ export default {
          * 初始化所有航班
          */
         get_flight(params) {
+            this.loading = true
             // 数据校验
             if (this.date != '') {
                 params['start_time'] = this.date
@@ -307,6 +337,47 @@ export default {
                 }
             })
         },
+
+        /**
+         * 航班日期加一日
+         */
+        upDate() {
+            this.loading = true
+            this.$flight_api.up_flight_date().then((res) => {
+                if (res.code == 200) {
+                    this.$message.success('航班日期加一日成功');
+                } else {
+                    this.$message.error('操作失败! ' + res.msg);
+                }
+                let param = { 
+                    'pagenum': this.pagination.current,
+                    'pagelimit': this.pagination.pageSize
+                }
+                this.loading = false
+                this.get_flight(param)
+            })
+
+        },
+
+        /**
+         * 航班日期减一日
+         */
+        downDate() {
+            this.loading = true
+            this.$flight_api.down_flight_date().then((res) => {
+                if (res.code == 200) {
+                    this.$message.success('航班日期减一日成功');
+                } else {
+                    this.$message.error('操作失败! ' + res.msg);
+                }
+                let param = { 
+                    'pagenum': this.pagination.current,
+                    'pagelimit': this.pagination.pageSize
+                }
+                this.loading = false
+                this.get_flight(param)
+            })
+        }
     }
 }
 </script>

@@ -12,7 +12,7 @@ class OrderModel(db.Model):
     pay_time = db.Column(db.DateTime, doc="支付时间", nullable=True)
     pay_end_time = db.Column(db.DateTime, doc="支付截止时间", nullable=True)
     pay_ready = db.Column(db.String(255), doc="是否支付", nullable=True)
-    flight_id = db.Column(db.Integer, doc="航班编号", nullable=True)
+    flight_id = db.Column(db.String(255), doc="航班编号", nullable=True)
     account_id = db.Column(db.Integer, doc="账号编号", nullable=True)
 
     def to_json(self):

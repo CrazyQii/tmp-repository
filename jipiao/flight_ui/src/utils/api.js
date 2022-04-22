@@ -1,6 +1,6 @@
 import { get, post, remove, put } from './https.js'
 
-// 股票接口
+
 export const flight_api = {
 
     /** 
@@ -146,6 +146,20 @@ export const flight_api = {
      */
     get_location() {
         return get('/flight/location')
+    },
+
+    /**
+     * 航班日期向后移动一天
+     */
+    up_flight_date() {
+        return get('/flight/modify/date', {'direction': 'up'})
+    },
+
+    /**
+     * 航班日期向前移动一天
+     */
+    down_flight_date() {
+        return get('/flight/modify/date', {'direction': 'down'})
     }
 
 }

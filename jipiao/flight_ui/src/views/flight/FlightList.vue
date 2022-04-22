@@ -82,10 +82,10 @@ import 'moment/locale/zh-cn';
 // 表格表头
 const columns = [
     {
-    title: "编号",
+    title: "航班号",
     dataIndex: "id",
     key: 'id',
-    width: "5%",
+    width: "10%",
   },
   {
     title: "航空公司",

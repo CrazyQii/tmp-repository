@@ -1,6 +1,9 @@
 <template>
     <div style="width: 60%; margin: 0 auto">
         <a-form-model ref="ruleForm" :model="form">
+            <a-form-model-item has-feedback label="航班号" prop="pass" v-if="!form.flight_id">
+                <a-input v-model="form.flight_id" type="text" autocomplete="off" />
+            </a-form-model-item>
             <a-form-model-item has-feedback label="航空公司" prop="pass">
                 <a-input v-model="form.flight_company" type="text" autocomplete="off" />
             </a-form-model-item>
@@ -31,7 +34,6 @@
             </a-form-model-item>
             <a-form-item label="航班时间">
                 <a-range-picker
-                :disabled-date="disabledDate"
                 :disabled-time="disabledRangeTime"
                 :show-time="{
                     hideDisabledOptions: true,
@@ -65,6 +67,7 @@ export default {
     data() {
         return {
             form: {
+                flight_id: this.flight.id,
                 flight_company: this.flight.flight_company,
                 flight_type: this.flight.flight_type,
                 price: this.flight.price,
@@ -93,14 +96,6 @@ export default {
                 result.push(i);
             }
             return result;
-        },
-
-        /**
-         * 禁用日期
-         */
-        disabledDate(current) {
-            // Can not select days before today and today
-            return current && current < moment().endOf('day');
         },
 
         /**
@@ -140,7 +135,7 @@ export default {
 
             this.loading = true
             let param = {
-                flight_id: this.flight.id,
+                flight_id: this.form.flight_id,
                 flight_company: this.form.flight_company,
                 flight_type: this.form.flight_type,
                 price: this.form.price,

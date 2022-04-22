@@ -84,7 +84,7 @@ def logout():
         session.pop('token', None)
         return resp()
     except Exception as e:
-        print('登出异常 ' + str(e))
+        print('退出登录异常 ' + str(e))
         return resp(ResponseEnum.SYSTEM_ERROR.value['code'], ResponseEnum.SYSTEM_ERROR.value['msg'])
 
 

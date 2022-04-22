@@ -20,6 +20,7 @@ class FlightService(object):
         """
         result = {'flights': [], 'sum': 0}
         flights = FlightModel.query.filter(
+            or_(FlightModel.id == flightModel.id, flightModel.id is None),
             or_(FlightModel.flight_type == flightModel.flight_type, flightModel.flight_type is None),
             or_(db.cast(FlightModel.start_time, db.Date) == flightModel.start_time, flightModel.start_time is None),
             # or_(FlightModel.end_time == flightModel.end_time, flightModel.end_time is None),
