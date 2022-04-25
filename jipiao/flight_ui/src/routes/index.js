@@ -46,9 +46,9 @@ const routes = [
     path: '/flight-list',
     name: 'FlightList',
     component: () => import('../views/flight/FlightList.vue'),
-    // meta: {
-      // keepAlive: true // 需要缓存
-    // }
+    meta: {
+      keepAlive: true // 需要缓存
+    }
   },
   {
     path: '/flight-detail/:id',

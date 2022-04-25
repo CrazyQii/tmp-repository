@@ -51,6 +51,7 @@ import echarts from "echarts";
 
 // 组件注册
 Vue.component(Button.name, Button);
+Vue.component(Button.Group.name, Button.Group)
 Vue.component(Layout.name, Layout);
 Vue.component(Layout.Header.name, Layout.Header);
 Vue.component(Layout.Content.name, Layout.Content);

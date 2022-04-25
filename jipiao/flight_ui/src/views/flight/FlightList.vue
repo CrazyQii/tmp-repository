@@ -6,6 +6,7 @@
                 <a-date-picker
                     format="YYYY-MM-DD"
                     @change="OnChange"
+                    :value="date"
                     placeholder="选择始发日期"
                 />
             </a-col>
@@ -54,12 +55,11 @@
             @change="handleTableChange"
             style="margin-top:2rem;"
         >
-            <!-- 公司详情页面 -->
-            <template slot="dm" slot-scope="text">
-                {{ text }}
-            </template>
             <template slot="flight_company" slot-scope="text">
                 {{ text }}
+            </template>
+            <template slot="price" slot-scope="text">
+                <span style="color: red; font-weight: 700">{{ text }}</span>
             </template>
             <!-- 删除 -->
             <template slot="operation" slot-scope="text, row">
@@ -83,9 +83,8 @@ import 'moment/locale/zh-cn';
 const columns = [
     {
     title: "航班号",
-    dataIndex: "id",
-    key: 'id',
-    width: "10%",
+    dataIndex: "flight_number",
+    key: 'flight_number',
   },
   {
     title: "航空公司",
@@ -117,11 +116,9 @@ const columns = [
   },
   {
     title: "舱位数量",
-    dataIndex: "flight_number",
-    key: 'flight_number',
-    width: '10%',
-    scopedSlots: { customRender: "flight_number" },
-    sorter: (a, b) => a.flight_number - b.flight_number,
+    dataIndex: "sit_number",
+    key: 'sit_number',
+    width: '10%'
   },
   {
     title: "机票价格(￥)",
@@ -164,6 +161,7 @@ export default {
     },
     mounted() {
         this.get_location()
+        this.date = getTaskDate(String(new Date()))
     },
     methods: {
         // 日期选择框配置
@@ -228,18 +226,26 @@ export default {
 
         // 点击始发城市下拉框
         onChangeStartCity(e) {
-            this.start_city = e[e.length - 1]
+            if (e.length == 0) {
+                this.start_city = ''
+            } else {
+                this.start_city = e[e.length - 1]
+            }
         },
         
         // 点击到达城市下拉框
         onChangeArriveCity(e) {
-            this.arrive_city = e[e.length - 1]
+            if (e.length == 0) {
+                this.arrive_city = ''
+            } else {
+                this.arrive_city = e[e.length - 1]
+            }
         },
 
         // 日期选择框
         OnChange(e) {
             if (e == null) {
-                this.date = null
+                this.date = ''
             } else {
                 this.date = getTaskDate(String(e._d))
             }

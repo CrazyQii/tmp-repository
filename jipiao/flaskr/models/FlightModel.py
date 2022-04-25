@@ -1,4 +1,4 @@
-# coding:utf-8
+    # coding:utf-8
 # 航班模型
 
 from . import db
@@ -7,10 +7,11 @@ from . import db
 class FlightModel(db.Model):
     """ 航班模型 """
     __tablename__ = 'tb_flight'
-    id = db.Column(db.String(255), doc="航班号", primary_key=True)
+    id = db.Column(db.Integer, doc="编号", primary_key=True, autoincrement=True)
     flight_type = db.Column(db.String(255), doc="机型", nullable=True)
     flight_company = db.Column(db.String(255), doc="航空公司", nullable=True)
-    flight_number = db.Column(db.Integer, doc="舱位数量", nullable=True)
+    flight_number = db.Column(db.String(255), doc="航班号", nullable=True)
+    sit_number = db.Column(db.Integer, doc="座位数量", primary_key=True)
     from_pos = db.Column(db.String(5), doc="始发地", nullable=True)
     to_pos = db.Column(db.String(13), doc="到达地", nullable=True)
     start_time = db.Column(db.DateTime, doc="始发时间", nullable=True)
@@ -23,6 +24,7 @@ class FlightModel(db.Model):
             'flight_type': self.flight_type,
             'flight_company': self.flight_company,
             'flight_number': self.flight_number,
+            'sit_number': self.sit_number,
             'from_pos': self.from_pos,
             'to_pos': self.to_pos,
             'start_time': self.start_time,

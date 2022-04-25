@@ -42,10 +42,10 @@
                     添加航班
                 </a-button>
                 <a-button-group size="small" style="margin-left:1rem;">
-                    <a-button type="link" @click="upDate">
+                    <a-button type="link" @click="downDate">
                         <a-icon type="left" />
                     </a-button>
-                    <a-button type="link" @click="downDate">
+                    <a-button type="link" @click="upDate">
                         <a-icon type="right" />
                     </a-button>
                 </a-button-group>
@@ -63,8 +63,11 @@
             <template slot="dm" slot-scope="text">
                 {{ text }}
             </template>
-            <template slot="flight_company" slot-scope="text">
-                {{ text }}
+            <template slot="from_pos" slot-scope="text">
+                <span style="font-weight: 700">{{ text }}</span>
+            </template>
+            <template slot="price" slot-scope="text">
+                <span style="color: red; font-weight: 700">{{ text }}</span>
             </template>
             <!-- 删除 -->
             <template slot="operation" slot-scope="text, row">
@@ -111,20 +114,21 @@ import 'moment/locale/zh-cn';
 import FlightInfo from "@/components/FlightInfo.vue";
 
 const columns = [
-    {
-    title: "航班号",
-    dataIndex: "id",
-    key: 'id',
-  },
   {
     title: "始发城市",
     dataIndex: "from_pos",
     key: 'from_pos',
+    scopedSlots: { customRender: "flight_cfrom_posompany" },
   },
   {
     title: "目的地城市",
     dataIndex: "to_pos",
     key: 'to_pos'
+  },
+  {
+    title: "航班号",
+    dataIndex: "flight_number",
+    key: 'flight_number',
   },
   {
     title: "航空公司",
@@ -144,12 +148,14 @@ const columns = [
     dataIndex: "start_time",
     key: 'start_time',
     scopedSlots: { customRender: "start_time" },
+    sorter: (a, b) => Date.parse(a.start_time) - Date.parse(b.start_time),
   },
   {
     title: "到达时间",
     dataIndex: "end_time",
     key: 'end_time',
     scopedSlots: { customRender: "end_time" },
+    sorter: (a, b) => Date.parse(a.end_time) - Date.parse(b.end_time),
   },
   {
     title: "机票价格(￥)",
@@ -160,11 +166,9 @@ const columns = [
   },
   {
     title: "舱位数量",
-    dataIndex: "flight_number",
-    key: 'flight_number',
-    width: '10%',
-    scopedSlots: { customRender: "flight_number" },
-    sorter: (a, b) => a.flight_number - b.flight_number,
+    dataIndex: "sit_number",
+    key: 'sit_number',
+    width: '10%'
   },
   {
     title: "操作",
@@ -345,7 +349,7 @@ export default {
             this.loading = true
             this.$flight_api.up_flight_date().then((res) => {
                 if (res.code == 200) {
-                    this.$message.success('航班日期加一日成功');
+                    this.$message.success('航班日期后移一日成功');
                 } else {
                     this.$message.error('操作失败! ' + res.msg);
                 }
@@ -366,7 +370,7 @@ export default {
             this.loading = true
             this.$flight_api.down_flight_date().then((res) => {
                 if (res.code == 200) {
-                    this.$message.success('航班日期减一日成功');
+                    this.$message.success('航班日期前移一日成功');
                 } else {
                     this.$message.error('操作失败! ' + res.msg);
                 }

@@ -21,9 +21,9 @@
                 />
             </template>
             <template slot="operation" slot-scope="text, record">
-                <a-button v-if="record.pay_ready === 0" type="primary" @click="pay(record)">支付</a-button>
-                <a-button v-if="record.pay_ready === 0" type="danger" style="margin-left: 2rem" @click="cancelOrder(record)">取消订单</a-button>
-                <a-button v-if="record.pay_ready === 1" type="primary" @click="cancelOrder(record)">退票</a-button>
+                <a-button v-if="record.pay_ready === 0" type="primary" size="small" @click="pay(record)">支付</a-button>
+                <a-button v-if="record.pay_ready === 0" type="danger" style="margin-left: 2rem" size="small" @click="cancelOrder(record)">取消订单</a-button>
+                <a-button v-if="record.pay_ready === 1" type="primary" size="small" @click="cancelOrder(record)">退票</a-button>
             </template>
         </a-table>
     </div>

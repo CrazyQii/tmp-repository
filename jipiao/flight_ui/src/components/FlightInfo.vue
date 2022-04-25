@@ -1,8 +1,8 @@
 <template>
     <div style="width: 60%; margin: 0 auto">
         <a-form-model ref="ruleForm" :model="form">
-            <a-form-model-item has-feedback label="航班号" prop="pass" v-if="!form.flight_id">
-                <a-input v-model="form.flight_id" type="text" autocomplete="off" />
+            <a-form-model-item has-feedback label="航班号" prop="pass">
+                <a-input v-model="form.flight_number" type="text" autocomplete="off" />
             </a-form-model-item>
             <a-form-model-item has-feedback label="航空公司" prop="pass">
                 <a-input v-model="form.flight_company" type="text" autocomplete="off" />
@@ -11,7 +11,7 @@
                 <a-input v-model="form.flight_type" type="text" autocomplete="off" />
             </a-form-model-item>
             <a-form-model-item has-feedback label="座位数量" prop="checkPass">
-                <a-input-number :min="0" :value="form.flight_number" @change="handleNumberChange" />
+                <a-input-number :min="0" :value="form.sit_number" @change="handleNumberChange" />
             </a-form-model-item>
             <a-form-model-item has-feedback label="机票价格" prop="checkPass">
                 <a-input-number :min="0" :value="form.price" @change="handlePriceChange" />
@@ -75,7 +75,8 @@ export default {
                 to_pos: this.flight.to_pos,
                 start_time: this.flight.start_time,
                 end_time: this.flight.end_time,
-                flight_number: this.flight.flight_number
+                flight_number: this.flight.flight_number,
+                sit_number: this.flight.sit_number
             },
             options: city_options
         }
@@ -140,6 +141,7 @@ export default {
                 flight_type: this.form.flight_type,
                 price: this.form.price,
                 flight_number: this.form.flight_number,
+                sit_number: this.form.sit_number,
                 from_pos: this.form.from_pos,
                 to_pos: this.form.to_pos,
                 start_time: this.form.start_time,
@@ -149,10 +151,10 @@ export default {
             this.$flight_api.update_flight(param).then((res) => {
                 console.log(res)
                 if (res.code == 200) {
-                    this.$message.success('修改航班信息成功! ');
+                    this.$message.success('保存航班信息成功! ');
                     this.$router.go(0)
                 } else {
-                    this.$message.error('修改航班信息失败! ' + res.msg);
+                    this.$message.error('保存航班信息失败! ' + res.msg);
                 }
                 this.loading = false
             })
@@ -163,7 +165,7 @@ export default {
          */
         handleNumberChange(value) {
             console.log(value)
-            this.form.flight_number = value
+            this.form.sit_number = value
         },
         
         handlePriceChange(value) {
